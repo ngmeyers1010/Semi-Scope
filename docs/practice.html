@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#121211">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>SemiScope practice progress</title>
+<style>
+:root{
+  color-scheme:light;
+  --bg:#f6f6f4; --surface-1:#fcfcfb; --border:#e4e3df;
+  --text-primary:#0b0b0b; --text-secondary:#52514e; --text-muted:#6b6a65;
+  --series-1:#2a78d6; --series-2:#eb6834; --series-3:#1baf7a; --series-4:#eda100;
+  --grid:#ecebe7; --pos:#006300; --neg:#b42828; --link:#1f66c4;
+  --div-pos:#2a78d6; --div-neg:#e34948; --div-mid:#f0efec;
+  --accent-soft:#e8f0fb;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#121211; --surface-1:#1a1a19; --border:#2e2e2b;
+    --text-primary:#f0efec; --text-secondary:#c3c2b7; --text-muted:#9a9990;
+    --series-1:#3987e5; --series-2:#d95926; --series-3:#199e70; --series-4:#c98500;
+    --grid:#262624; --pos:#4cc24c; --neg:#ec7a7a; --link:#5b9cec;
+    --div-pos:#3987e5; --div-neg:#e66767; --div-mid:#383835;
+    --accent-soft:#1d2a3b;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#121211; --surface-1:#1a1a19; --border:#2e2e2b;
+  --text-primary:#f0efec; --text-secondary:#c3c2b7; --text-muted:#9a9990;
+  --series-1:#3987e5; --series-2:#d95926; --series-3:#199e70; --series-4:#c98500;
+  --grid:#262624; --pos:#4cc24c; --neg:#ec7a7a; --link:#5b9cec;
+  --div-pos:#3987e5; --div-neg:#e66767; --div-mid:#383835;
+  --accent-soft:#1d2a3b;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text-primary);
+  font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif}
+.wrap{max-width:720px;margin:0 auto;padding:20px 16px 48px}
+h1{font-size:22px;margin:0}
+h2{font-size:16px;margin:0 0 6px}
+.sub{color:var(--text-secondary);font-size:14px}
+.muted{color:var(--text-muted)}
+.card{background:var(--surface-1);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-top:12px}
+ul{margin:4px 0 0;padding-left:20px} li{margin:3px 0}
+.tick{font-weight:650}
+.pos{color:var(--pos)} .neg{color:var(--neg)}
+a{color:var(--link)}
+ol.qs{padding-left:20px;margin:6px 0 0} ol.qs li{margin:10px 0}
+details{margin-top:4px;font-size:14px;color:var(--text-secondary)} summary{cursor:pointer;color:var(--link)}
+.grid{display:grid;grid-template-columns:1fr;gap:0}
+@media (min-width:700px){.grid{grid-template-columns:1fr 1fr;gap:0 12px}}
+@media print{body{background:#fff;color:#000}.card{border-color:#ccc;break-inside:avoid}a{color:#000;text-decoration:none}.noprint{display:none}}
+
+.bar{width:100%;height:12px;accent-color:var(--series-1);margin:8px 0 2px}
+ol.plan{list-style:none;padding:0;margin:6px 0 0} ol.plan li{display:flex;gap:10px;align-items:baseline;padding:6px 0;border-top:1px solid var(--grid)}
+ol.plan li:first-child{border-top:0}
+.mark{flex:0 0 1.4em;font-weight:700;text-align:center} .done .mark{color:var(--pos)} .todo .mark{color:var(--text-muted)}
+.next{background:var(--accent-soft);border-radius:8px;padding:6px 8px;margin:0 -8px}
+code{font-size:13px;overflow-wrap:anywhere}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Your practice progress</h1>
+  <div class="sub">0 of 33 exercises done · checked 2026-10-16</div>
+  <div class="sub noprint" style="margin-top:4px"><a href="index.html">← Dashboard</a> · <a href="weekly.html">Weekly review</a></div>
+  <progress class="bar" max="33" value="0" aria-label="Exercises done: 0 of 33">0/33</progress>
+  <div class="card" id="next-card"><h2>Next: session 1, ex01 last_price</h2><p class="sub">Skill: pick a column, drop missing values, take the last row</p><p>Open <code>practice/ex01_last_price.py</code>, then run <code>python practice/check.py 1</code>. The warm-up question and stretch goal are in <code>practice/PLAN.md</code>.</p></div>
+  <div class="card"><h2>Week 1: pandas basics <span class="muted" style="font-weight:400">(0/5)</span></h2><ol class="plan"><li class="todo next" id="ex-1" data-ex="1"><span class="mark" aria-hidden="true">○</span><span><b>Session 1: ex01 last_price</b><span class="sr-only"> (not done yet)</span><br><span class="sub">pick a column, drop missing values, take the last row</span></span></li><li class="todo" id="ex-2" data-ex="2"><span class="mark" aria-hidden="true">○</span><span><b>Session 2: ex02 daily_returns</b><span class="sr-only"> (not done yet)</span><br><span class="sub">.pct_change() for daily returns</span></span></li><li class="todo" id="ex-3" data-ex="3"><span class="mark" aria-hidden="true">○</span><span><b>Session 3: ex03 total_return</b><span class="sr-only"> (not done yet)</span><br><span class="sub">slice by date with .loc</span></span></li><li class="todo" id="ex-4" data-ex="4"><span class="mark" aria-hidden="true">○</span><span><b>Session 4: ex04 best_stock</b><span class="sr-only"> (not done yet)</span><br><span class="sub">math on whole rows, .idxmax()</span></span></li><li class="todo" id="ex-7" data-ex="7"><span class="mark" aria-hidden="true">○</span><span><b>Session 5: ex07 monthly_returns</b><span class="sr-only"> (not done yet)</span><br><span class="sub">groupby by month</span></span></li></ol></div>
+  <div class="card"><h2>Week 2: risk, and checking your own work <span class="muted" style="font-weight:400">(0/5)</span></h2><ol class="plan"><li class="todo" id="ex-5" data-ex="5"><span class="mark" aria-hidden="true">○</span><span><b>Session 6: ex05 annual_vol</b><span class="sr-only"> (not done yet)</span><br><span class="sub">.std() and annualizing with sqrt(252)</span></span></li><li class="todo" id="ex-6" data-ex="6"><span class="mark" aria-hidden="true">○</span><span><b>Session 7: ex06 max_drawdown</b><span class="sr-only"> (not done yet)</span><br><span class="sub">.cummax(): the running high</span></span></li><li class="todo" id="ex-12" data-ex="12"><span class="mark" aria-hidden="true">○</span><span><b>Session 8: ex12 write_a_test</b><span class="sr-only"> (not done yet)</span><br><span class="sub">write a test that catches bugs</span></span></li><li class="todo" id="ex-9" data-ex="9"><span class="mark" aria-hidden="true">○</span><span><b>Session 9: ex09 gross_margin</b><span class="sr-only"> (not done yet)</span><br><span class="sub">combine two tables by date</span></span></li><li class="todo" id="ex-8" data-ex="8"><span class="mark" aria-hidden="true">○</span><span><b>Session 10: ex08 group_median</b><span class="sr-only"> (not done yet)</span><br><span class="sub">groupby by category, median vs mean</span></span></li></ol></div>
+  <div class="card"><h2>Week 3: factors and backtests <span class="muted" style="font-weight:400">(0/5)</span></h2><ol class="plan"><li class="todo" id="ex-10" data-ex="10"><span class="mark" aria-hidden="true">○</span><span><b>Session 11: ex10 momentum_z</b><span class="sr-only"> (not done yet)</span><br><span class="sub">your first factor and a z-score</span></span></li><li class="todo" id="ex-13" data-ex="13"><span class="mark" aria-hidden="true">○</span><span><b>Session 12: ex13 z_move</b><span class="sr-only"> (not done yet)</span><br><span class="sub">is today&#x27;s move unusual?</span></span></li><li class="todo" id="ex-11" data-ex="11"><span class="mark" aria-hidden="true">○</span><span><b>Session 13: ex11 mini_backtest</b><span class="sr-only"> (not done yet)</span><br><span class="sub">a backtest with no peeking</span></span></li><li class="todo" id="ex-16" data-ex="16"><span class="mark" aria-hidden="true">○</span><span><b>Session 14: ex16 inverse_vol</b><span class="sr-only"> (not done yet)</span><br><span class="sub">inverse-volatility weights</span></span></li><li class="todo" id="ex-14" data-ex="14"><span class="mark" aria-hidden="true">○</span><span><b>Session 15: ex14 fifo_lots</b><span class="sr-only"> (not done yet)</span><br><span class="sub">FIFO tax lots with a loop</span></span></li></ol></div>
+  <div class="card"><h2>Week 4: is the edge real? <span class="muted" style="font-weight:400">(0/5)</span></h2><ol class="plan"><li class="todo" id="ex-15" data-ex="15"><span class="mark" aria-hidden="true">○</span><span><b>Session 16: ex15 t_test</b><span class="sr-only"> (not done yet)</span><br><span class="sub">t-stat and sample size</span></span></li><li class="todo" id="ex-17" data-ex="17"><span class="mark" aria-hidden="true">○</span><span><b>Session 17: ex17 own_percentile</b><span class="sr-only"> (not done yet)</span><br><span class="sub">boolean masks and percentiles</span></span></li><li class="todo" id="ex-19" data-ex="19"><span class="mark" aria-hidden="true">○</span><span><b>Session 18: ex19 rolling_excess</b><span class="sr-only"> (not done yet)</span><br><span class="sub">rolling 1-year excess, compounding</span></span></li><li class="todo" id="ex-22" data-ex="22"><span class="mark" aria-hidden="true">○</span><span><b>Session 19: ex22 signal_decay</b><span class="sr-only"> (not done yet)</span><br><span class="sub">signal decay and the next trading day</span></span></li><li class="todo" id="ex-24" data-ex="24"><span class="mark" aria-hidden="true">○</span><span><b>Session 20: ex24 up_down_capture</b><span class="sr-only"> (not done yet)</span><br><span class="sub">up/down capture with masks</span></span></li></ol></div>
+  <div class="card"><h2>Week 5: rebuild the dashboard&#x27;s own logic <span class="muted" style="font-weight:400">(0/5)</span></h2><ol class="plan"><li class="todo" id="ex-18" data-ex="18"><span class="mark" aria-hidden="true">○</span><span><b>Session 21: ex18 fake_the_network</b><span class="sr-only"> (not done yet)</span><br><span class="sub">test with a fake download</span></span></li><li class="todo" id="ex-20" data-ex="20"><span class="mark" aria-hidden="true">○</span><span><b>Session 22: ex20 dedupe_log</b><span class="sr-only"> (not done yet)</span><br><span class="sub">dedupe a log with a set</span></span></li><li class="todo" id="ex-21" data-ex="21"><span class="mark" aria-hidden="true">○</span><span><b>Session 23: ex21 reproduce_the_score</b><span class="sr-only"> (not done yet)</span><br><span class="sub">reproduce the dashboard&#x27;s score</span></span></li><li class="todo" id="ex-23" data-ex="23"><span class="mark" aria-hidden="true">○</span><span><b>Session 24: ex23 explain_a_score_change</b><span class="sr-only"> (not done yet)</span><br><span class="sub">explain a score change exactly</span></span></li><li class="todo" id="ex-25" data-ex="25"><span class="mark" aria-hidden="true">○</span><span><b>Session 25: ex25 drawdown_episodes</b><span class="sr-only"> (not done yet)</span><br><span class="sub">drawdown episodes</span></span></li></ol></div>
+  <div class="card"><h2>Week 6: bonus <span class="muted" style="font-weight:400">(0/8)</span></h2><ol class="plan"><li class="todo" id="ex-26" data-ex="26"><span class="mark" aria-hidden="true">○</span><span><b>Session 26: ex26 bootstrap_a_range</b><span class="sr-only"> (not done yet)</span><br><span class="sub">bootstrap a range of outcomes</span></span></li><li class="todo" id="ex-27" data-ex="27"><span class="mark" aria-hidden="true">○</span><span><b>Session 27: ex27 catch_a_bad_number</b><span class="sr-only"> (not done yet)</span><br><span class="sub">catch a bad SEC number (median of earlier quarters)</span></span></li><li class="todo" id="ex-28" data-ex="28"><span class="mark" aria-hidden="true">○</span><span><b>Session 28: ex28 readable_colours</b><span class="sr-only"> (not done yet)</span><br><span class="sub">readable colours (WCAG contrast)</span></span></li><li class="todo" id="ex-29" data-ex="29"><span class="mark" aria-hidden="true">○</span><span><b>Session 29: ex29 what_changed_this_week</b><span class="sr-only"> (not done yet)</span><br><span class="sub">what changed this week (two dicts, tuple sort keys)</span></span></li><li class="todo" id="ex-30" data-ex="30"><span class="mark" aria-hidden="true">○</span><span><b>Session 30: ex30 stayers_vs_new</b><span class="sr-only"> (not done yet)</span><br><span class="sub">stayers vs new picks (pairing quarters, a per-quarter t-stat)</span></span></li><li class="todo" id="ex-31" data-ex="31"><span class="mark" aria-hidden="true">○</span><span><b>Session 31: ex31 beta_and_a_bad_day</b><span class="sr-only"> (not done yet)</span><br><span class="sub">beta and a bad day (covariance, a percentile as risk)</span></span></li><li class="todo" id="ex-32" data-ex="32"><span class="mark" aria-hidden="true">○</span><span><b>Session 32: ex32 sharpe_and_effective_bets</b><span class="sr-only"> (not done yet)</span><br><span class="sub">Sharpe and effective bets (annualizing, a covariance matrix)</span></span></li><li class="todo" id="ex-33" data-ex="33"><span class="mark" aria-hidden="true">○</span><span><b>Session 33: ex33 paper_portfolio_return</b><span class="sr-only"> (not done yet)</span><br><span class="sub">the paper portfolio&#x27;s return (holding periods, drift, trading costs)</span></span></li></ol></div>
+  <p class="sub muted" style="margin-top:16px">Made by <code>python practice/check.py --html</code>: run it again after you pass an exercise.</p>
+</div>
+<script>if ('serviceWorker' in navigator && (location.protocol === 'https:' || ['localhost','127.0.0.1'].includes(location.hostname))) navigator.serviceWorker.register('sw.js').catch(()=>{});</script>
+</body>
+</html>

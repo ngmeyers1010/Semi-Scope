@@ -1,0 +1,12 @@
+cache/
+__pycache__/
+state/paper_portfolio_demo.json
+.pytest_cache/
+state/alerts.md
+state/run_log_demo.json
+run_output.txt
+test_output.txt
+failure.md
+state/my_trades_demo.csv
+reports_demo/
+practice/.hint_levels.json

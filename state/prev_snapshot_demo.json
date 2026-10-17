@@ -1,0 +1,23 @@
+{
+ "asof": "2026-10-13",
+ "top": [
+  "ANET",
+  "AAPL",
+  "INTC",
+  "MPWR",
+  "AMAT"
+ ],
+ "ranks": {
+  "MU": 16,
+  "AMD": 9,
+  "AAPL": 2,
+  "ASML": 19,
+  "NVDA": 13,
+  "AMZN": 9,
+  "GOOGL": 4
+ },
+ "price_only": [],
+ "pnl": 1123.00991,
+ "paper": null,
+ "alerts": 1
+}

@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#121211">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>SemiScope weekly review</title>
+<style>
+:root{
+  color-scheme:light;
+  --bg:#f6f6f4; --surface-1:#fcfcfb; --border:#e4e3df;
+  --text-primary:#0b0b0b; --text-secondary:#52514e; --text-muted:#6b6a65;
+  --series-1:#2a78d6; --series-2:#eb6834; --series-3:#1baf7a; --series-4:#eda100;
+  --grid:#ecebe7; --pos:#006300; --neg:#b42828; --link:#1f66c4;
+  --div-pos:#2a78d6; --div-neg:#e34948; --div-mid:#f0efec;
+  --accent-soft:#e8f0fb;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#121211; --surface-1:#1a1a19; --border:#2e2e2b;
+    --text-primary:#f0efec; --text-secondary:#c3c2b7; --text-muted:#9a9990;
+    --series-1:#3987e5; --series-2:#d95926; --series-3:#199e70; --series-4:#c98500;
+    --grid:#262624; --pos:#4cc24c; --neg:#ec7a7a; --link:#5b9cec;
+    --div-pos:#3987e5; --div-neg:#e66767; --div-mid:#383835;
+    --accent-soft:#1d2a3b;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#121211; --surface-1:#1a1a19; --border:#2e2e2b;
+  --text-primary:#f0efec; --text-secondary:#c3c2b7; --text-muted:#9a9990;
+  --series-1:#3987e5; --series-2:#d95926; --series-3:#199e70; --series-4:#c98500;
+  --grid:#262624; --pos:#4cc24c; --neg:#ec7a7a; --link:#5b9cec;
+  --div-pos:#3987e5; --div-neg:#e66767; --div-mid:#383835;
+  --accent-soft:#1d2a3b;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text-primary);
+  font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif}
+.wrap{max-width:720px;margin:0 auto;padding:20px 16px 48px}
+h1{font-size:22px;margin:0}
+h2{font-size:16px;margin:0 0 6px}
+.sub{color:var(--text-secondary);font-size:14px}
+.muted{color:var(--text-muted)}
+.card{background:var(--surface-1);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-top:12px}
+ul{margin:4px 0 0;padding-left:20px} li{margin:3px 0}
+.tick{font-weight:650}
+.pos{color:var(--pos)} .neg{color:var(--neg)}
+a{color:var(--link)}
+ol.qs{padding-left:20px;margin:6px 0 0} ol.qs li{margin:10px 0}
+details{margin-top:4px;font-size:14px;color:var(--text-secondary)} summary{cursor:pointer;color:var(--link)}
+.grid{display:grid;grid-template-columns:1fr;gap:0}
+@media (min-width:700px){.grid{grid-template-columns:1fr 1fr;gap:0 12px}}
+@media print{body{background:#fff;color:#000}.card{border-color:#ccc;break-inside:avoid}a{color:#000;text-decoration:none}.noprint{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Weekly review</h1>
+  <div class="sub" id="asof">Loading…</div>
+  <div class="sub noprint" style="margin-top:4px"><a href="index.html">← Dashboard</a> · <a href="#" id="print">Print</a></div>
+  <div class="card"><h2>Questions to think about</h2><div class="sub">Pick one, write a few sentences before you look at the answer on the dashboard.</div><ol class="qs" id="qs"></ol></div>
+  <div class="grid">
+    <div class="card"><h2>Top picks right now</h2><ul id="top"></ul></div>
+    <div class="card"><h2>Your stocks</h2><ul id="mine"></ul></div>
+  </div>
+  <div class="card" id="rankweek-card" hidden><h2>This week in the rankings</h2><div class="sub" id="rankweek-asof"></div><p id="rankweek" style="margin:6px 0"></p><a class="noprint" id="rankweek-link" href="index.html#tab=rank&amp;card=week-card">See the climbs and drops →</a></div>
+  <div class="card"><h2>What changed this week</h2><div class="sub" id="since"></div><ul id="changes"></ul></div>
+  <div class="card"><h2>Earnings in the next 2 weeks</h2><ul id="earn"></ul></div>
+  <div class="card"><h2>Next rebalance</h2><div class="sub" id="rebal"></div></div>
+  <div class="card"><h2>Is the edge real, and steady?</h2><ul id="edge"></ul></div>
+  <div class="card"><h2>Group leadership</h2><div class="sub" id="groups"></div></div>
+  <div class="card" id="journal-card" hidden><h2>Journal</h2><div class="sub">Your last entries from <code>docs/journal.md</code>. <a class="noprint" id="journal-edit" href="https://github.com/" target="_blank" rel="noopener">Add one →</a></div><div id="journal"></div></div>
+  <p class="sub noprint" style="margin-top:16px"><a href="practice.html">Your practice progress →</a></p>
+  <p class="sub muted" style="margin-top:16px">Research tool, not financial advice.</p>
+</div>
+<script>
+const hEsc = t => String(t).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function unpackPairs(x){
+  if (Array.isArray(x)) return x.map(unpackPairs);
+  if (!x || typeof x !== 'object') return x;
+  if (Array.isArray(x._d)){
+    const dates = x._d, same = !!x._same, out = {};
+    for (const [k, arr] of Object.entries(x)) if (k !== '_d' && k !== '_same')
+      out[k] = dates.map((d,i)=>[d, arr[i]]).filter(p=>same || p[1] != null);
+    return out;
+  }
+  const out = {}; for (const [k,v] of Object.entries(x)) out[k] = unpackPairs(v); return out;
+}
+// ---- weekly page (tests/test_weekly.py checks the copies above match index.html) ----
+const $ = id => document.getElementById(id);
+const safeLink = l => /^index\.html(#[\w=.\-&]*)?$/.test(l||'') ? l : 'index.html';   // only our own page
+const li = xs => xs.length ? xs.map(x=>`<li>${x}</li>`).join('') : '<li class="muted">Nothing yet.</li>';
+const pct = v => v==null ? '—' : (v>=0?'+':'−')+Math.abs(v*100).toFixed(1)+'%';
+function render(D){
+  $('asof').textContent = `Prices as of ${D.prices_asof}` + (D.mode==='demo' ? ' · demo data' : '');
+  const Q = (D.weekly||{}).questions || [];
+  $('qs').innerHTML = Q.length ? Q.map(q=>`<li>${hEsc(q.q)} <a class="noprint" href="${hEsc(safeLink(q.link))}">Open →</a>${q.hint?`<details><summary>Hint</summary>${hEsc(q.hint)}</details>`:''}</li>`).join('')
+                               : '<li class="muted">Questions appear after the first full run.</li>';
+  const top = (D.rankings||[]).filter(r=>r.rank!=null && r.rank<=(D.top_n||5)).sort((a,b)=>a.rank-b.rank);
+  $('top').innerHTML = li(top.map(r=>`#${r.rank} <span class="tick">${hEsc(r.ticker)}</span> <span class="muted">${hEsc(r.name||'')}</span> · score ${r.score==null?'—':r.score.toFixed(2)}`));
+  $('mine').innerHTML = li((D.holdings||[]).map(h=>{ const c = h.current||{}; const r = c.rank ?? c.would_rank;
+    const where = r==null ? 'no rank' : (c.rank!=null && h.in_universe!==false ? '#'+Math.trunc(r) : '≈#'+Math.trunc(r));
+    return `<span class="tick">${hEsc(h.ticker)}</span> ${where}${c.ret_3m!=null?` · 3-mo <span class="${c.ret_3m>=0?'pos':'neg'}">${pct(c.ret_3m)}</span>`:''}`; }));
+  const sn = D.since||{}; $('since').textContent = sn.first ? '' : (sn.text || '');   // skip the first-visit welcome
+  const asof = new Date(D.prices_asof+'T00:00:00Z'), weekAgo = new Date(asof - 7*864e5).toISOString().slice(0,10);
+  const seen = new Set(), recent = (D.alert_log||[]).filter(a=>(a.date||'')>=weekAgo && !seen.has(a.text) && seen.add(a.text));   // same alert logged twice = once
+  $('changes').innerHTML = li(recent.slice(0,8).map(a=>hEsc(a.text)));
+  const E = ((D.earnings_cal||{}).rows||[]).filter(r=>r.days>=0 && r.days<=14);
+  $('earn').innerHTML = E.length ? E.map(r=>`<li>${hEsc(r.text)}</li>`).join('') : '<li class="muted">None of your stocks or picks report in the next 2 weeks.</li>';
+  const C = D.confidence||{}, cb = C.paper || C.backtest, S = D.steady||{}, sv = (S.paper&&S.paper.available) ? S.paper : S.backtest;
+  const edge = [];
+  if (cb && cb.explain) edge.push(hEsc(cb.verdict+': '+cb.explain));
+  if (sv && sv.available) edge.push(hEsc(sv.read));
+  $('edge').innerHTML = li(edge);
+  $('groups').textContent = ((D.groups||{}).read) || 'Not available yet.';
+  const RW = (D.weekly||{}).rankings_week, rwc = $('rankweek-card');
+  rwc.hidden = !(RW && RW.text);
+  if (!rwc.hidden){
+    $('rankweek').textContent = RW.text;
+    $('rankweek-asof').textContent = RW.asof ? `Today vs ${RW.asof} (5 trading days earlier)` : '';
+    $('rankweek-link').href = safeLink(RW.link);
+  }
+  $('rebal').textContent = (D.rebalance && D.rebalance.text) || 'The paper portfolio starts on the first full run.';
+}
+// ---- journal (docs/journal.md): "## YYYY-MM-DD" headings, plain text under each ----
+// journal:start
+function parseJournal(text, n){
+  const out = []; let cur = null;
+  for (const line of String(text||'').split(/\r?\n/)){
+    const m = line.match(/^##\s+(\d{4}-\d{2}-\d{2})\s*$/);
+    if (m){ cur = {date:m[1], body:[]}; out.push(cur); }
+    else if (cur) cur.body.push(line);
+  }
+  return out.map(e=>({date:e.date, body:e.body.join('\n').trim()})).filter(e=>e.body)
+            .sort((a,b)=>a.date<b.date?1:a.date>b.date?-1:0).slice(0, n==null?3:n);
+}
+// journal:end
+function renderJournal(text){
+  const E = parseJournal(text, 3); if (!E.length) return;
+  $('journal').innerHTML = E.map(e=>`<div style="margin-top:10px"><b>${hEsc(e.date)}</b><div style="white-space:pre-wrap;font-size:14px">${hEsc(e.body.replace(/([^\n])\n(?!\n)/g, '$1 '))}</div></div>`).join('');
+  const m = location.hostname.match(/^([^.]+)\.github\.io$/), repo = location.pathname.split('/').filter(Boolean)[0];
+  if (m && repo) $('journal-edit').href = `https://github.com/${m[1]}/${repo}/edit/main/docs/journal.md`;
+  $('journal-card').hidden = false;
+}
+fetch('journal.md?'+Date.now()).then(r=>r.ok?r.text():'').then(renderJournal).catch(()=>{});
+$('print').onclick = e => { e.preventDefault(); window.print(); };
+fetch('data.json?'+Date.now()).then(r=>r.json()).then(d=>render(unpackPairs(d)))
+  .catch(e=>{ $('asof').textContent = "Couldn't load data.json: " + e; });
+</script>
+<script>
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || ['localhost','127.0.0.1'].includes(location.hostname)))
+  navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body>
+</html>

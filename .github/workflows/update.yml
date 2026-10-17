@@ -1,0 +1,148 @@
+name: Update SemiScope
+
+on:
+  schedule:
+    - cron: "17 22 * * 1-5"   # weekdays ~6pm ET, after the close
+  workflow_dispatch: {}        # "Run workflow" button for manual runs
+
+permissions:
+  contents: write
+  issues: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: semiscope
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40          # fast tests 8 + pipeline 20 + slow tests 8 + housekeeping; a hung step can't burn free minutes
+    steps:
+      - uses: actions/checkout@v4
+        timeout-minutes: 3
+      - uses: actions/setup-python@v5
+        timeout-minutes: 5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install
+        timeout-minutes: 5
+        run: pip install -r requirements.txt
+      - name: Restore SEC cache
+        timeout-minutes: 5
+        uses: actions/cache@v4
+        with:
+          path: cache
+          key: sec-${{ github.run_id }}
+          restore-keys: sec-
+      - name: Run tests
+        shell: bash   # bash + pipefail: the step still fails if pytest fails
+        timeout-minutes: 8
+        # the quick tests guard the data: if any fail, nothing is published today
+        run: python -m pytest -q -x --durations=10 -m "not slow" tests 2>&1 | tee test_output.txt
+      - name: Run pipeline
+        shell: bash
+        env:
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+        timeout-minutes: 20
+        # Mon-Thu: --fast reuses the slow robustness grid; Friday (or manual runs) refresh everything
+        run: |
+          FAST=""
+          if [ "$(date -u +%u)" != "5" ] && [ "${{ github.event_name }}" = "schedule" ]; then FAST="--fast"; fi
+          python run.py $FAST 2>&1 | tee run_output.txt
+      - name: Update practice progress page
+        timeout-minutes: 3
+        # docs/practice.html from practice/check.py. Unfinished exercises are normal, never a failure;
+        # the file is only rewritten when a ✓ actually changed (not just the date).
+        run: python practice/check.py --html || echo "practice page not updated (not a problem for today's data)"
+      - name: Commit results (paper log + dashboard data + run log)
+        id: commit
+        timeout-minutes: 3
+        run: |
+          git config user.name "semiscope-bot"
+          git config user.email "semiscope-bot@users.noreply.github.com"
+          git add docs/data.json docs/detail.json docs/run_log.json docs/practice.html state/paper_portfolio.json state/digest.md state/prev_snapshot.json reports/
+          git diff --cached --quiet || git commit -m "Update data $(date -u +%F)"
+          git push
+      - name: Run slow tests (after the data is saved)
+        shell: bash
+        timeout-minutes: 8
+        # full rehearsals (~2 min). They run AFTER the commit so they can't delay or block today's
+        # data, but a failure still fails the job and opens the issue.
+        run: python -m pytest -q -m slow tests 2>&1 | tee slow_test_output.txt
+
+      # ---- If anything above failed: log it, and open (or update) ONE issue ----
+      - name: Log the failed run
+        if: failure()
+        timeout-minutes: 3
+        run: |
+          if [ -f slow_test_output.txt ]; then
+            python runlog.py warn "slow tests failed after the data was saved: today's data is fine" || true
+          else
+            if [ -f run_output.txt ]; then STEP="pipeline (run.py)"
+            elif [ -f test_output.txt ]; then STEP="tests"; else STEP="setup / install"; fi
+            python runlog.py fail "$STEP" || true
+          fi
+          git config user.name "semiscope-bot"
+          git config user.email "semiscope-bot@users.noreply.github.com"
+          git add docs/run_log.json
+          git diff --cached --quiet || git commit -m "Log failed run $(date -u +%F)"
+          git push || true
+      - name: Open or update the "update failed" issue
+        if: failure()
+        timeout-minutes: 3
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          {
+            echo "The daily SemiScope update failed on $(date -u +%F). The dashboard still shows the last good data."
+            echo
+            echo "**Run:** $RUN_URL"
+            echo
+            echo "Last lines of output:"
+            echo '```'
+            tail -n 30 slow_test_output.txt 2>/dev/null || tail -n 30 run_output.txt 2>/dev/null || tail -n 30 test_output.txt 2>/dev/null || echo "(failed before tests ran — open the run link)"
+            echo '```'
+            echo
+            echo "Paste this into Claude if you're not sure what it means. This issue closes itself after the next successful run."
+          } > failure.md
+          N=$(gh issue list --state open --search "SemiScope update failed in:title" --json number -q '.[0].number')
+          if [ -n "$N" ]; then gh issue comment "$N" --body-file failure.md
+          else gh issue create --title "SemiScope update failed" --body-file failure.md; fi
+      - name: Close the "update failed" issue after a good run
+        if: success()
+        timeout-minutes: 3
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for N in $(gh issue list --state open --search "SemiScope update failed in:title" --json number -q '.[].number'); do
+            gh issue close "$N" --comment "Fixed: run ${{ github.run_id }} succeeded on $(date -u +%F)."
+          done
+      - name: Open an issue for alerts (GitHub notifies you by email / mobile app)
+        # also after a slow-test failure: the data (and its alerts) were already saved
+        if: ${{ !cancelled() && steps.commit.outcome == 'success' && hashFiles('state/alerts.md') != '' }}
+        timeout-minutes: 3
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue create --title "SemiScope alert — $(date -u +%F)" --body-file state/alerts.md
+      # Deploy even after a failure, so the dashboard's Run health shows it
+      - uses: actions/configure-pages@v5
+        if: ${{ !cancelled() }}
+        timeout-minutes: 3
+      - uses: actions/upload-pages-artifact@v3
+        if: ${{ !cancelled() }}
+        timeout-minutes: 5
+        with:
+          path: docs
+      - id: deploy
+        if: ${{ !cancelled() }}
+        timeout-minutes: 5
+        uses: actions/deploy-pages@v4
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}

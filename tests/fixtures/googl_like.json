@@ -1,0 +1,67 @@
+{
+ "cik": 0,
+ "entityName": "Search Co",
+ "facts": {
+  "us-gaap": {
+   "Revenues": {
+    "units": {
+     "USD": [
+      {
+       "end": "2021-03-31",
+       "val": 55000,
+       "accn": "G1",
+       "form": "10-Q",
+       "filed": "2021-04-28",
+       "start": "2021-01-01"
+      },
+      {
+       "end": "2021-06-30",
+       "val": 62000,
+       "accn": "G2A",
+       "form": "10-Q/A",
+       "filed": "2021-09-15",
+       "start": "2021-04-01"
+      },
+      {
+       "end": "2021-09-30",
+       "val": 65000,
+       "accn": "G3",
+       "form": "10-Q",
+       "filed": "2021-10-27",
+       "start": "2021-07-01"
+      }
+     ]
+    }
+   }
+  },
+  "dei": {
+   "EntityCommonStockSharesOutstanding": {
+    "units": {
+     "shares": [
+      {
+       "end": "2021-04-20",
+       "val": 300,
+       "accn": "G1",
+       "form": "10-Q",
+       "filed": "2021-04-28"
+      },
+      {
+       "end": "2021-04-20",
+       "val": 45,
+       "accn": "G1",
+       "form": "10-Q",
+       "filed": "2021-04-28"
+      },
+      {
+       "end": "2021-04-20",
+       "val": 320,
+       "accn": "G1",
+       "form": "10-Q",
+       "filed": "2021-04-28"
+      }
+     ]
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,2 @@
+# semiscope
+Stock Investenement Project

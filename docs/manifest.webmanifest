@@ -1,0 +1,14 @@
+{
+  "name": "SemiScope: chip stock rankings",
+  "short_name": "SemiScope",
+  "description": "Semiconductor and hardware factor rankings, quarterly picks, and a forward paper portfolio.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#121211",
+  "theme_color": "#121211",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+  ]
+}

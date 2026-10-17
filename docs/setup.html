@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#121211">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SemiScope">
+
+<title>SemiScope setup</title>
+<style>
+:root{
+  color-scheme:light;
+  --bg:#f6f6f4; --surface-1:#fcfcfb; --border:#e4e3df;
+  --text-primary:#0b0b0b; --text-secondary:#52514e; --text-muted:#6b6a65;
+  --series-1:#2a78d6; --series-2:#eb6834; --series-3:#1baf7a; --series-4:#eda100;
+  --grid:#ecebe7; --pos:#006300; --neg:#b42828; --link:#1f66c4;
+  --div-pos:#2a78d6; --div-neg:#e34948; --div-mid:#f0efec;
+  --accent-soft:#e8f0fb;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#121211; --surface-1:#1a1a19; --border:#2e2e2b;
+    --text-primary:#f0efec; --text-secondary:#c3c2b7; --text-muted:#9a9990;
+    --series-1:#3987e5; --series-2:#d95926; --series-3:#199e70; --series-4:#c98500;
+    --grid:#262624; --pos:#4cc24c; --neg:#ec7a7a; --link:#5b9cec;
+    --div-pos:#3987e5; --div-neg:#e66767; --div-mid:#383835;
+    --accent-soft:#1d2a3b;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#121211; --surface-1:#1a1a19; --border:#2e2e2b;
+  --text-primary:#f0efec; --text-secondary:#c3c2b7; --text-muted:#9a9990;
+  --series-1:#3987e5; --series-2:#d95926; --series-3:#199e70; --series-4:#c98500;
+  --grid:#262624; --pos:#4cc24c; --neg:#ec7a7a; --link:#5b9cec;
+  --div-pos:#3987e5; --div-neg:#e66767; --div-mid:#383835;
+  --accent-soft:#1d2a3b;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text-primary);
+  font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif}
+.wrap{max-width:1100px;margin:0 auto;padding:20px 16px 60px}
+header{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px}
+h1{font-size:24px;margin:0;letter-spacing:-.01em}
+h2{font-size:18px;margin:0 0 4px}
+.sub{color:var(--text-secondary);font-size:13px}
+.muted{color:var(--text-muted)}
+.banner{background:#fff4d6;color:#5a4300;border:1px solid #f0d58a;border-radius:10px;padding:10px 14px;margin:14px 0;font-size:14px}
+:root[data-theme="dark"] .banner{background:#3a3010;color:#f5e2a8;border-color:#5c4b17}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .banner{background:#3a3010;color:#f5e2a8;border-color:#5c4b17}}
+
+.card{background:var(--surface-1);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:16px}
+.step{display:flex;gap:12px;padding:14px 0;border-top:1px solid var(--border)}
+.step:first-of-type{border-top:0}
+.mark{flex:0 0 28px;height:28px;border-radius:50%;border:2px solid var(--border);display:grid;place-items:center;font-weight:700;color:var(--text-muted)}
+.step.done .mark{background:var(--pos);border-color:var(--pos);color:#fff}
+.step h3{margin:2px 0 2px;font-size:15px}
+.step.done h3{color:var(--text-secondary)}
+.step ol{margin:8px 0 0;padding-left:20px;font-size:14px}.step li{margin:3px 0}
+details{margin-top:6px;font-size:14px}summary{cursor:pointer;color:var(--link)}
+code{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:0 4px;font-size:13px}
+.bar{height:8px;border-radius:99px;background:var(--grid);overflow:hidden;margin:10px 0 4px}
+.bar>i{display:block;height:100%;background:var(--pos);width:0}
+.trouble dt{font-weight:600;margin-top:10px}.trouble dd{margin:2px 0 0;color:var(--text-secondary);font-size:14px}
+a{color:var(--link)}
+</style>
+</head>
+<body>
+<div class="wrap" style="max-width:720px">
+  <header><div><h1>Set up SemiScope</h1><div class="sub">8 steps, about 15 minutes. This page ticks steps off by itself as it detects them.</div></div></header>
+  <div class="card" style="margin-top:16px">
+    <div id="progress" style="font-weight:600">Checking…</div>
+    <div class="bar"><i id="bar"></i></div>
+    <div class="sub" id="where"></div>
+    <div id="steps" style="margin-top:8px"></div>
+  </div>
+  <div class="card">
+    <h2>First real run</h2>
+    <div class="sub">Read the <a href="LAUNCH.md">launch-day checklist</a> before your first run: what a healthy run looks like and the 5 most likely problems, with fixes.</div>
+  </div>
+  <div class="card">
+    <h2>Change which stocks you track</h2>
+    <ol class="sub">
+      <li>Repo → open <code>state/my_stocks.csv</code> → pencil icon (Edit). Or tap <b>Edit my stocks</b> on the My stocks tab.</li>
+      <li>One stock per line: <code>ticker,kind,note</code>. Kind is <code>holding</code> (you own it) or <code>watch</code> (just keep an eye on it). Example: <code>AVGO,watch,AI networking</code></li>
+      <li><b>Commit changes</b>. The next update picks it up. Typos are flagged on the dashboard and never break the run.</li>
+    </ol>
+  </div>
+  <div class="card">
+    <h2>If it fails</h2>
+    <div class="sub">Open GitHub → your repo → <b>Actions</b> → tap the red ✕ run → tap the failed step to read the error. Then:</div>
+    <dl class="trouble">
+      <dt>"Get Pages site failed" / "Not Found" at the deploy step</dt>
+      <dd>Pages isn't on. Do step 2 (Source must say <b>GitHub Actions</b>, not "Deploy from a branch"), then re-run.</dd>
+      <dt>"Permission denied" or "403" at the Commit step</dt>
+      <dd>The Action can't save. Do step 4 (Read and write permissions), then re-run.</dd>
+      <dt>"403 Forbidden" from sec.gov / lots of "SEC download failed"</dt>
+      <dd>The SEC needs a real contact. Check step 3: the secret value must look like <code>SemiScope you@example.com</code>.</dd>
+      <dt>Actions tab is empty / no "Update SemiScope" workflow</dt>
+      <dd>The hidden <code>.github</code> folder didn't upload. Add file → Create new file → name it <code>.github/workflows/update.yml</code> → paste the file's contents → Commit.</dd>
+      <dt>"Run tests" step is red</dt>
+      <dd>A file is missing or got changed. Re-upload all files from the zip. If it's still red, copy the last 30 lines of the error and paste them to Claude.</dd>
+      <dt>Missing secret: the run works but data looks thin</dt>
+      <dd>Without the secret, the email in <code>config.py</code> is used. If you see SEC failures under How it works → Data health, add the secret (step 3).</dd>
+    </dl>
+  </div>
+  <div class="sub"><a href="index.html">← Back to the dashboard</a></div>
+</div>
+<script src="setup_steps.js"></script>
+<script>
+const HOW = {
+  upload: `<ol><li>On github.com tap <b>+</b> → <b>New repository</b>. Name it <code>semiscope</code>, choose <b>Public</b>, tap <b>Create</b>.</li>
+    <li>Easiest on a computer: tap <b>uploading an existing file</b> and drag in <i>everything inside</i> the unzipped folder, including the hidden <code>.github</code> folder (Mac Finder: Cmd+Shift+.).</li>
+    <li>Tap <b>Commit changes</b>.</li></ol>
+    <details><summary>Check first (optional)</summary>On a computer, run <code>python check_setup.py</code> in the folder. Every line should be ✓.</details>`,
+  pages: `<ol><li>Repo → <b>Settings</b> (on phone: the ⋯ menu) → <b>Pages</b>.</li><li>Under <b>Build and deployment → Source</b> pick <b>GitHub Actions</b>.</li></ol>`,
+  secret: `<ol><li>Settings → <b>Secrets and variables</b> → <b>Actions</b> → <b>New repository secret</b>.</li>
+    <li>Name: <code>SEC_USER_AGENT</code> · Value: <code>SemiScope your-email@example.com</code> → <b>Add secret</b>.</li></ol>
+    <div class="sub">Why: the SEC asks every program to say who's calling. Detected when real data arrives with no SEC download failures.</div>`,
+  perms: `<ol><li>Settings → <b>Actions</b> → <b>General</b> → scroll to <b>Workflow permissions</b>.</li><li>Pick <b>Read and write permissions</b> → <b>Save</b>.</li></ol>
+    <div class="sub">Why: the Action commits the paper portfolio log and run log back to your repo. Detected after 2 runs have been logged.</div>`,
+  firstrun: `<ol><li>Repo → <b>Actions</b> → <b>Update SemiScope</b> → <b>Run workflow</b> → <b>Run workflow</b>.</li><li>Wait ~5 min for the green ✓, then reload this page.</li></ol>
+    <div class="sub">After this it runs by itself every weekday evening.</div>`,
+  healthy: `<div class="sub">The most recent update finished OK. If not, see "If it fails" below. Failures also open a GitHub issue automatically.</div>`,
+  alerts: `<ol><li>Install the <b>GitHub</b> app and sign in.</li><li>Profile → Settings → Notifications → turn on push for <b>Issues</b>.</li>
+    <li>On the repo page tap <b>Watch → All activity</b>.</li></ol>
+    <label style="display:flex;gap:8px;align-items:center;margin-top:8px;font-size:14px"><input type="checkbox" id="alerts-done"> I did this</label>`,
+  trades: `<ol><li>Repo → open <code>state/my_trades.csv</code> → pencil icon (Edit).</li><li>Add a line like <code>2026-10-16,MU,buy,3,112.40,first buy</code> → <b>Commit changes</b>.</li></ol>
+    <div class="sub">Optional, but it's how you track your real money against the model.</div>`,
+};
+let manual = {alerts:false};
+try { manual = JSON.parse(localStorage.getItem('semiscope.setup')||'{}'); } catch(e) {}
+const hosted = /\.github\.io$/.test(location.hostname);
+const get = u => fetch(u+'?'+Date.now()).then(r=>r.ok?r.json():null).catch(()=>null);
+function render(data, runlog){
+  const done = stepsDone(data, runlog, {hosted, manual}), n = stepsCount(done), first = SETUP_STEPS.find(s=>!done[s.id]);
+  document.getElementById('progress').textContent = n===SETUP_STEPS.length ? 'All set! 🎉' : `${n} of ${SETUP_STEPS.length} steps done`;
+  document.getElementById('bar').style.width = (n/SETUP_STEPS.length*100)+'%';
+  document.getElementById('where').textContent = hosted ? `You're viewing your live site (${location.hostname}).`
+    : 'You are viewing a local copy. Steps 1–2 tick off once this page is opened from your github.io address.';
+  document.getElementById('steps').innerHTML = SETUP_STEPS.map((s,i)=>`<div class="step ${done[s.id]?'done':''}">
+    <div class="mark" aria-label="${done[s.id]?'done':'to do'}">${done[s.id]?'✓':i+1}</div>
+    <div><h3>${s.title}</h3>${done[s.id] && s.id!=='alerts' ? '<div class="sub">Done.</div>' : `<details ${first===s?'open':''}><summary>${done[s.id]?'Done · show how':'How'}</summary>${HOW[s.id]}</details>`}</div></div>`).join('');
+  const cb = document.getElementById('alerts-done');
+  if (cb){ cb.checked = !!manual.alerts; cb.onchange = ()=>{ manual.alerts = cb.checked;
+    try { localStorage.setItem('semiscope.setup', JSON.stringify(manual)); } catch(e) {} render(data, runlog); }; }
+}
+Promise.all([get('data.json'), get('run_log.json')]).then(([d, l])=>render(d, l));
+</script>
+<script>
+// installable app + offline support (service workers need https or localhost)
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || ['localhost','127.0.0.1'].includes(location.hostname)))
+  navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body>
+</html>
