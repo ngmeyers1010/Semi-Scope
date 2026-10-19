@@ -8,5 +8,15 @@
   "mode": "live",
   "kind": null,
   "run_id": "39304697891"
+ },
+ {
+  "when": "2026-10-19 18:53 UTC",
+  "status": "failed",
+  "skipped": 0,
+  "skipped_tickers": [],
+  "error": "Failed during: tests",
+  "mode": "live",
+  "kind": null,
+  "run_id": "39306144701"
  }
 ]
