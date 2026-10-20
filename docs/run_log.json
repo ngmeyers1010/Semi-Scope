@@ -49,6 +49,7 @@
   "error": null,
   "mode": "live",
   "kind": "full",
-  "run_id": "39436003286"
+  "run_id": "39436003286",
+  "warning": "slow tests failed after the data was saved: today's data is fine"
  }
 ]
