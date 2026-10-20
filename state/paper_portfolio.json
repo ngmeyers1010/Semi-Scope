@@ -1,0 +1,31 @@
+{
+  "note": "Append-only log of live paper picks. Do not edit past entries.",
+  "entries": [
+    {
+      "date": "2026-10-20",
+      "reason": "inception",
+      "picks": [
+        "MU",
+        "AMD",
+        "INTC",
+        "STX",
+        "NVDA"
+      ],
+      "entry_prices": {
+        "MU": 904.0888,
+        "AMD": 537.67,
+        "INTC": 91.2381,
+        "STX": 661.27,
+        "NVDA": 215.58
+      },
+      "scores": {
+        "MU": 1.189,
+        "AMD": 0.497,
+        "INTC": 0.405,
+        "STX": 0.381,
+        "NVDA": 0.376
+      },
+      "recorded_at": "2026-10-20T14:06:32Z"
+    }
+  ]
+}
