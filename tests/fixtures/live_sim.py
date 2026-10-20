@@ -130,10 +130,33 @@ run.main()
 '''
 
 
+def _reset_to_demo_data(dst: Path) -> None:
+    """Make the copy look like a brand-new install, even if the real repo holds LIVE data.
+
+    On GitHub the daily pipeline runs BEFORE the slow tests, so docs/data.json is already live
+    (with today's alerts) by the time this simulation copies the repo. The test expects the
+    shipped DEMO data, so if the copy is not demo, rebuild demo data inside the copy.
+    """
+    data_file = dst / "docs" / "data.json"
+    try:
+        is_demo = json.loads(data_file.read_text()).get("mode") == "demo"
+    except (OSError, ValueError):
+        is_demo = False
+    if is_demo:
+        return
+    for rel in ("docs/data.json", "docs/detail.json"):
+        (dst / rel).unlink(missing_ok=True)
+    env = {k: v for k, v in os.environ.items() if not k.startswith("GITHUB_")}
+    env["PYTHONDONTWRITEBYTECODE"] = "1"
+    subprocess.run([sys.executable, "run.py", "--demo"], cwd=dst, env=env, check=True,
+                   capture_output=True, text=True, timeout=300)
+
+
 def _copy_repo(dst: Path) -> None:
     ignore = shutil.ignore_patterns("tests", "cache", ".git", "__pycache__", "reports_demo", "*.zip",
                                     "node_modules", ".pytest_cache")
     shutil.copytree(REPO, dst, ignore=ignore)
+    _reset_to_demo_data(dst)
     # a brand-new install: the DEMO data.json/detail.json from the zip are still there (as on
     # GitHub before the first real run), but no run log, paper portfolio or reports
     for rel in ("docs/run_log.json", "state/paper_portfolio.json",
