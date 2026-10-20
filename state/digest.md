@@ -1,5 +1,8 @@
 # SemiScope digest — 2026-10-20
 
+## Since last run
+- Up to date: nothing new since Oct 20.
+
 ## Cycle: Upswing
 - Sales growing and accelerating — the sweet spot for chip stocks.
 - Median sales growth +37.1%; 77% of companies accelerating.
@@ -9,7 +12,7 @@
 - No changes since the last update.
 
 ## What could $1,000 become? (backtest replayed)
-- Replaying the backtest's 59 quarters in random 1-year blocks, $1,000 became $2,870 to $15,310 after 5 years in 8 of 10 replays (middle: $6,292). After 1 year it was below $1,000 in 9% of replays, and it beat SPY over 5 years in 99%. The worst 1 in 20 replays fell 31% or more at some point. This replays the past; it is not a forecast.
+- Replaying the backtest's 59 quarters in random 1-year blocks, $1,000 became $2,873 to $15,309 after 5 years in 8 of 10 replays (middle: $6,295). After 1 year it was below $1,000 in 9% of replays, and it beat SPY over 5 years in 99%. The worst 1 in 20 replays fell 31% or more at some point. This replays the past; it is not a forecast.
 
 ## Drawdowns (backtest)
 - The worst drop (−54%, 2024-06 to 2025-04) took 15 months to get back to the old high; SOXX fell 41% in the same stretch and took 14 months. It spent 31% of all days more than 10% below its previous high.
@@ -28,10 +31,10 @@
 - Next rebalance ≈Dec 1 (in 42 days). If it were today: no changes. The same 5 picks, already at equal weights.
 
 ## Earnings coming up (next 14 days)
-- GOOGL ≈Oct 30 (in 10 days): usually moves ±0.9% the next day (≈$340–$346); up 4 of last 8.
+- GOOGL ≈Oct 30 (in 10 days): usually moves ±0.9% the next day (≈$341–$347); up 4 of last 8.
 - AAPL ≈Oct 31 (in 11 days): usually moves ±1.9% the next day (≈$336–$349); up 2 of last 8.
-- AMZN ≈Oct 31 (in 11 days): usually moves ±2.1% the next day (≈$257–$268); up 4 of last 8.
-- STX ≈Oct 31 (in 11 days): usually moves ±2.8% the next day (≈$643–$680); up 4 of last 8.
+- AMZN ≈Oct 31 (in 11 days): usually moves ±2.1% the next day (≈$258–$269); up 4 of last 8.
+- STX ≈Oct 31 (in 11 days): usually moves ±2.8% the next day (≈$652–$690); up 4 of last 8.
 - Dates are estimates from each company's filing rhythm. Past moves show size, not direction.
 
 ## Group leadership
@@ -45,7 +48,7 @@
 - NVDA: Top pick (#5/26)
 - AMZN: Bottom quarter (≈#20/26)
 - GOOGL: Bottom quarter (≈#23/26)
-- AMD: P/S 21.2x, 95th percentile of its 5-yr range (near its priciest).
+- AMD: P/S 21.4x, 95th percentile of its 5-yr range (near its priciest).
 - AAPL: P/S 10.7x, 99th percentile of its 5-yr range (near its priciest).
 
 ## Paper portfolio (the real test)

@@ -51,5 +51,17 @@
   "kind": "full",
   "run_id": "39436003286",
   "warning": "slow tests failed after the data was saved: today's data is fine"
+ },
+ {
+  "when": "2026-10-20 14:20 UTC",
+  "status": "ok",
+  "skipped": 1,
+  "skipped_tickers": [
+   "QRVO"
+  ],
+  "error": null,
+  "mode": "live",
+  "kind": "full",
+  "run_id": "39437841804"
  }
 ]
