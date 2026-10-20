@@ -28,5 +28,15 @@
   "mode": "live",
   "kind": null,
   "run_id": "39336591368"
+ },
+ {
+  "when": "2026-10-20 13:58 UTC",
+  "status": "failed",
+  "skipped": 0,
+  "skipped_tickers": [],
+  "error": "Failed during: tests",
+  "mode": "live",
+  "kind": null,
+  "run_id": "39434811475"
  }
 ]
