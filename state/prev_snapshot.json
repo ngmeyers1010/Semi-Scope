@@ -1,5 +1,5 @@
 {
- "asof": "2026-10-20",
+ "asof": "2026-10-21",
  "top": [
   "MU",
   "AMD",
@@ -11,10 +11,10 @@
   "MU": 1,
   "AMD": 2,
   "AAPL": 17,
-  "ASML": 9,
+  "ASML": 8,
   "NVDA": 5,
   "AMZN": 20,
-  "GOOGL": 23
+  "GOOGL": 24
  },
  "price_only": [
   "ASML"
