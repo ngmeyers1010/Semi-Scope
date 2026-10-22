@@ -1,25 +1,25 @@
 {
- "asof": "2026-10-21",
+ "asof": "2026-10-22",
  "top": [
   "MU",
   "AMD",
-  "INTC",
   "STX",
-  "NVDA"
+  "NVDA",
+  "AVGO"
  ],
  "ranks": {
   "MU": 1,
   "AMD": 2,
   "AAPL": 17,
   "ASML": 8,
-  "NVDA": 5,
+  "NVDA": 4,
   "AMZN": 20,
-  "GOOGL": 24
+  "GOOGL": 23
  },
  "price_only": [
   "ASML"
  ],
  "pnl": null,
- "paper": null,
- "alerts": 0
+ "paper": -0.04477,
+ "alerts": 3
 }
