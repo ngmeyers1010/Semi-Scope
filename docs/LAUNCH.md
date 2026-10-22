@@ -36,7 +36,7 @@ Then open your dashboard and check:
       shown as "≈#", and never picked.
 - [ ] **How it works → Run health**: one green "ok" row.
 
-The backtest numbers **will** differ from the demo (demo CAGR is 21.2%). The real number is the
+The backtest numbers **will** differ from the demo (demo CAGR is 20.7%). The real number is the
 one that counts, even if it's worse.
 
 ## 4. The 6 most likely problems

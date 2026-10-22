@@ -32,7 +32,6 @@ UNIVERSE = {
     "ON":   {"name": "onsemi", "group": "Analog/Power", "sec": True},
     "MPWR": {"name": "Monolithic Power", "group": "Analog/Power", "sec": True},
     "SWKS": {"name": "Skyworks", "group": "Analog/Power", "sec": True},
-    "QRVO": {"name": "Qorvo", "group": "Analog/Power", "sec": True},
     # Semi equipment & materials
     "AMAT": {"name": "Applied Materials", "group": "Equipment", "sec": True},
     "LRCX": {"name": "Lam Research", "group": "Equipment", "sec": True},

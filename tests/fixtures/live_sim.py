@@ -15,7 +15,7 @@ Realistic quirks baked in (each one has bitten a real pipeline somewhere):
   2. a stale last bar: MU's last 2 prices are missing (Yahoo hiccup)
   3. a 10:1 stock split (every 4th stock, like the demo) with raw share counts
   4. foreign filers (ASML, TSM) — no SEC data, price factors only
-  5. a stock whose SEC download fails (HTTP 500 after retries): QRVO
+  5. a stock whose SEC download fails (HTTP 500 after retries): ADI
   6. a stock missing from the SEC ticker list: SWKS
   7. a 53-week fiscal year + duplicates + restatements: AAPL uses the round-17
      fixture tests/fixtures/aapl_like.json (old data, so it's "stale" too)
@@ -42,7 +42,7 @@ HERE = Path(__file__).resolve().parent
 
 TYPO = "NVDAA"
 STALE = "MU"
-SEC_FAILS = "QRVO"
+SEC_FAILS = "ADI"
 NOT_IN_SEC = "SWKS"
 UNITS = "LRCX"            # its latest 10-Q revenue is filed in thousands of dollars by mistake (×1000)
 FIXTURE_FOR = {"AAPL": "aapl_like.json"}

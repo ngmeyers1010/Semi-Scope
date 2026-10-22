@@ -4,6 +4,8 @@
 code readable for a learner.
 
 ## What this is
+Repo: github.com/ngmeyers1010/Semi-Scope · live site: https://ngmeyers1010.github.io/Semi-Scope/
+
 A semis/hardware stock site. The code ranks stocks, backtests the ranking, keeps a paper portfolio
 and tracks Nick's real trades. A GitHub Action runs every weekday and publishes the dashboard in
 `docs/` to GitHub Pages.
@@ -22,7 +24,7 @@ The plan doc is "Investing Tracker Website — Plan" in the Claude project "Code
 
 ## Rules
 - Run `python -m pytest tests -q` before saying a change is done.
-- `python run.py --demo` must still end with `Backtest CAGR 21.2%`, unless a change is meant to
+- `python run.py --demo` must still end with `Backtest CAGR 20.7%`, unless a change is meant to
   move it (say so).
 - Add a CHANGELOG.md row for each change and a CODE_TOUR.md section for each new idea.
 - Never publish dollar amounts or share counts from Nick's real trades; percentages only.
