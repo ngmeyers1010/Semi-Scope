@@ -101,4 +101,4 @@ def snippet(ticker: str) -> str:
             f'    if c["weight"] > 0 and x is not None and s:\n'
             f'        z = (min(max(x, s["lo"]), s["hi"]) - s["mean"]) / s["sd"] * c["sign"]\n'
             f'        num += c["weight"] * z; den += c["weight"]\n'
-            f'print(round(num / den, 2))')
+            f'print(f"{{num / den:.2f}}")')

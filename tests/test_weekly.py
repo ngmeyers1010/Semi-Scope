@@ -132,6 +132,8 @@ def test_missing_week_data_means_no_section_and_no_question():
 def test_demo_rankings_week_is_stored_and_page_uses_textcontent():
     d = load()
     rw = d["weekly"]["rankings_week"]
-    assert rw == weekly.rankings_week(d) and "joined the top 5" in rw["text"]
+    assert rw == weekly.rankings_week(d)
+    if d.get("mode") == "demo":                    # only the made-up demo data is known to shuffle the top 5
+        assert "joined the top 5" in rw["text"]
     page = (ROOT / "docs" / "weekly.html").read_text()
     assert "$('rankweek').textContent = RW.text" in page and 'id="rankweek-card" hidden' in page
