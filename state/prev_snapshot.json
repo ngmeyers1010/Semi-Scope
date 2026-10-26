@@ -1,18 +1,18 @@
 {
- "asof": "2026-10-22",
+ "asof": "2026-10-23",
  "top": [
   "MU",
   "AMD",
   "STX",
-  "NVDA",
-  "AVGO"
+  "AVGO",
+  "TER"
  ],
  "ranks": {
   "MU": 1,
   "AMD": 2,
-  "AAPL": 17,
+  "AAPL": 18,
   "ASML": 8,
-  "NVDA": 4,
+  "NVDA": 6,
   "AMZN": 20,
   "GOOGL": 23
  },
@@ -20,6 +20,6 @@
   "ASML"
  ],
  "pnl": null,
- "paper": -0.04477,
- "alerts": 3
+ "paper": -0.04044,
+ "alerts": 6
 }
