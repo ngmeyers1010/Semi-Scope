@@ -165,7 +165,7 @@ def _copy_repo(dst: Path) -> None:
     for p in (dst / "state").glob("*_demo*"):
         p.unlink()
         # the rehearsal checks the price-only path; hand-entered data is tested in test_foreign.py
-       (dst / "state" / "foreign_fundamentals.csv").unlink(missing_ok=True)
+    (dst / "state" / "foreign_fundamentals.csv").unlink(missing_ok=True)
     for p in (dst / "reports").glob("*.md"):
         if p.name != "README.md":
             p.unlink()
