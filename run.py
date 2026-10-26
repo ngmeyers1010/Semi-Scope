@@ -96,15 +96,15 @@ def load_live() -> tuple:
     except Exception as e:
         print(f"  ! SEC ticker list failed: {e} — scoring on price factors only")
         ciks = {}
-        all_series = {}
-         hand, problems = foreign.load()           
-         for p in problems:
-             print(f"  ! foreign_fundamentals.csv: {p}")
-         for t in tickers:
-             if not allmeta[t]["sec"]:
-                 if t in hand:
-                     all_series[t] = hand[t]       
-                 continue
+    all_series = {}
+    hand, problems = foreign.load()           # hand-entered foreign-filer quarters (state/foreign_fundamentals.csv)
+    for p in problems:
+        print(f"  ! foreign_fundamentals.csv: {p}")
+    for t in tickers:
+        if not allmeta[t]["sec"]:
+            if t in hand:
+                all_series[t] = hand[t]
+            continue
         if t not in ciks:
             FAILURES.setdefault(t, "not found in SEC ticker list")
             continue
