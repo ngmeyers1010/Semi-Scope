@@ -10,14 +10,14 @@
  "ranks": {
   "MU": 1,
   "AMD": 4,
-  "AAPL": 21,
+  "AAPL": 22,
   "ASML": 2,
   "NVDA": 7,
-  "AMZN": 24,
-  "GOOGL": 26
+  "AMZN": 25,
+  "GOOGL": 27
  },
  "price_only": [],
  "pnl": null,
- "paper": 0.0248,
- "alerts": 8
+ "paper": 0.01949,
+ "alerts": 7
 }
