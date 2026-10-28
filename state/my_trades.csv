@@ -2,7 +2,7 @@
 # Format: date (YYYY-MM-DD), ticker, buy or sell, shares (fractions ok), price per share, optional note
 # Example (delete the # to use it):
 # 2026-10-16,MU,buy,3,112.40,first buy
-date,ticker,action,shares,price,note
+# date,ticker,action,shares,price,note
 2025-11-24,AMZN,buy,2.112518,223.29
 2025-11-19,GOOGL,buy,1,294.22
 2025-11-19,AAPL,buy,1,269.3
