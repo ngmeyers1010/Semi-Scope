@@ -3,3 +3,13 @@
 # Example (delete the # to use it):
 # 2026-10-16,MU,buy,3,112.40,first buy
 date,ticker,action,shares,price,note
+2025-11-24,AMZN,buy,2.112518,223.29
+2025-11-19,GOOGL,buy,1,294.22
+2025-11-19,AAPL,buy,1,269.3
+2025-11-19,NVDA,buy,1,185.87
+2025-11-19,NVDA,buy,2,186.10
+2025-11-19,AMD,buy,0.448611,222.91
+2025-11-20,NVDA,buy,3,179.29
+2025-11-26,MU,buy,0.857651,200
+2025-11-28,MU,buy,0.141932,33.33
+
