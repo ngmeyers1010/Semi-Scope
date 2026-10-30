@@ -18,6 +18,8 @@ quarter rise and fall together and aren't independent of each other.
 """
 from __future__ import annotations
 
+import math
+
 import confidence
 
 MIN_N = 12           # picks per group below this: "too few to tell"
@@ -27,15 +29,16 @@ def classify(quarters: list[dict]) -> list[dict]:
     """[{date, stay: [excess...], new: [excess...]}] for each rebalance after the first."""
     out = []
     for prev, q in zip(quarters, quarters[1:]):
-        if not q.get("picks") or q.get("universe") is None:
+        u = q.get("universe")
+        if not q.get("picks") or u is None or not math.isfinite(u):     # still-open quarter: no result yet
             continue
         before = set(prev.get("picks") or []) if prev.get("end") == q.get("date") else set()
         row = {"date": q["date"], "stay": [], "new": []}
         for t in q["picks"]:
             r = (q.get("pick_returns") or {}).get(t)
-            if r is None:
+            if r is None or not math.isfinite(r):
                 continue
-            row["stay" if t in before else "new"].append(r - q["universe"])
+            row["stay" if t in before else "new"].append(r - u)
         out.append(row)
     return out
 

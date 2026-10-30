@@ -67,6 +67,14 @@ def test_empty_and_short():
     assert streak_edge.build([Q("q1", "q2", ["A"], [0.1]), {"date": "q2", "picks": [], "universe": None}]) is None
 
 
+def test_unfinished_quarter_is_skipped():
+    """The newest quarter has no result yet: its NaN must not count as a pick (live-data bug)."""
+    nan = float("nan")
+    qs = [Q("q1", "q2", ["A", "B"], [0.1, 0.2]), Q("q2", "q3", ["A", "C"], [0.1, 0.2]),
+          {"date": "q3", "end": "q4", "picks": ["A"], "pick_returns": {"A": nan}, "universe": nan}]
+    assert [r["date"] for r in streak_edge.classify(qs)] == ["q2"]
+
+
 def test_demo_and_card():
     import slim
     d = slim.unpack(json.loads((ROOT / "docs" / "data.json").read_text()))
@@ -74,7 +82,7 @@ def test_demo_and_card():
     again = streak_edge.build(d["backtest"]["quarters"])                 # from the rounded copy in data.json
     for g in ("stayers", "new"):
         assert r[g]["n"] == again[g]["n"] and r[g]["avg_excess"] == pytest.approx(again[g]["avg_excess"], abs=1e-4)
-    assert r["stayers"]["n"] + r["new"]["n"] == sum(len(q["picks"]) for q in d["backtest"]["quarters"][1:])
+    assert r["stayers"]["n"] + r["new"]["n"] == sum(len(q["picks"]) for q in d["backtest"]["quarters"][1:] if q.get("universe") is not None)
     assert 'id="streak-card" hidden' in HTML and "renderStreakEdge();" in HTML and "<dt>Streak effect</dt>" in HTML
     fn = re.search(r"function renderStreakEdge\(\).*?\n}\n", HTML, re.S).group(0)
     assert "textContent = K.read" in fn and "card.hidden = !(K" in fn
