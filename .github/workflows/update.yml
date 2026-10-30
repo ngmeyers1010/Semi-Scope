@@ -2,7 +2,10 @@ name: Update SemiScope
 
 on:
   schedule:
-    - cron: "17 22 * * 1-5"   # weekdays ~6pm ET, after the close
+    # GitHub cron is UTC and ignores daylight saving, so these are picked to land on the right side of
+    # the open and the close in both seasons (and GitHub often starts runs 5-20 min late):
+    - cron: "45 14 * * 1-5"   # just after the open: 9:45 ET (winter) / 10:45 ET (summer). Prices are intraday
+    - cron: "17 21 * * 1-5"   # just after the close: 4:17 ET (winter) / 5:17 ET (summer). The run that counts
   workflow_dispatch: {}        # "Run workflow" button for manual runs
 
 permissions:
@@ -47,10 +50,12 @@ jobs:
         env:
           SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
         timeout-minutes: 20
-        # Mon-Thu: --fast reuses the slow robustness grid; Friday (or manual runs) refresh everything
+        # --fast reuses the slow robustness grid. Only Friday's after-close run (and manual runs) refresh everything
         run: |
           FAST=""
-          if [ "$(date -u +%u)" != "5" ] && [ "${{ github.event_name }}" = "schedule" ]; then FAST="--fast"; fi
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            if [ "$(date -u +%u)" != "5" ] || [ "$(date -u +%H)" -lt 18 ]; then FAST="--fast"; fi
+          fi
           python run.py $FAST 2>&1 | tee run_output.txt
       - name: Update practice progress page
         timeout-minutes: 3
@@ -128,7 +133,11 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh issue create --title "SemiScope alert — $(date -u +%F)" --body-file state/alerts.md
+          # two runs a day: add to today's issue instead of opening a second one
+          T="SemiScope alert — $(date -u +%F)"
+          N=$(gh issue list --state open --json number,title -q ".[] | select(.title == \"$T\") | .number" | head -n 1)
+          if [ -n "$N" ]; then gh issue comment "$N" --body-file state/alerts.md
+          else gh issue create --title "$T" --body-file state/alerts.md; fi
       # Deploy even after a failure, so the dashboard's Run health shows it
       - uses: actions/configure-pages@v5
         if: ${{ !cancelled() }}

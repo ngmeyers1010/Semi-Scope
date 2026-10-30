@@ -1295,6 +1295,22 @@ round 97: give callers a stable address and hide where things actually are.
 
 ---
 
+## 8bx. Two runs a day (round 100)
+
+The Action now runs twice on weekdays: shortly after the market opens and shortly after it closes. That sounds like
+one line of config, but two things in the code treat a run as "a finished day":
+
+1. **The paper portfolio is append-only.** If a morning run landed on the first trading day of a quarter, the price
+   at 9:45am would become that day's entry price forever. So `run.market_still_open()` checks the clock in New York
+   time, and while the day is unfinished we hand `paper.update` the prices *without* the last row (`px.iloc[:-1]`).
+   The rebalance then happens in the after-close run, with the real close.
+2. **"What changed since last run"** compares against `state/prev_snapshot.json`. If the morning run replaced it,
+   the after-close run would compare today with today. So only after-close runs overwrite it.
+
+Why are the cron times odd? GitHub schedules in UTC and ignores daylight saving. 14:45 UTC is 9:45am in winter and
+10:45am in summer; 21:17 UTC is 4:17pm in winter and 5:17pm in summer. Both are after the open and after the close
+all year. `tests/test_intraday.py` checks that for both seasons.
+
 ## 9. Try this (one per practice session)
 
 **Graded versions** of the newest ideas live in `practice/` (`python practice/check.py 13`):

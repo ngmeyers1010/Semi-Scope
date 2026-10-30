@@ -126,6 +126,17 @@ def load_demo() -> tuple:
                               BACKTEST_START, return_market=True)
 
 
+def market_still_open(last_bar, now=None) -> bool:
+    """True while `last_bar` is today's unfinished price bar (New York time, before 4:10pm).
+
+    Morning runs see a half-finished day. Anything that is recorded for good (the paper portfolio's
+    picks and entry prices, the "since last run" baseline) must wait for the after-close run."""
+    now = pd.Timestamp.now("America/New_York") if now is None else pd.Timestamp(now)
+    now = now.tz_localize("America/New_York") if now.tzinfo is None else now.tz_convert("America/New_York")
+    same_day = pd.Timestamp(last_bar).normalize() == now.tz_localize(None).normalize()
+    return bool(same_day and now.hour * 60 + now.minute < 16 * 60 + 10)
+
+
 def _clean(x):
     """Make numpy/pandas values JSON-safe (NaN -> null, rounded floats)."""
     if isinstance(x, dict):
@@ -327,7 +338,11 @@ def _main(log=None) -> None:
     print("Updating paper portfolio…")
     if args.demo:
         paper.STATE = ROOT / "state" / "paper_portfolio_demo.json"
-    state, new = paper.update(all_series, px, tickers)
+    intraday = (not args.demo) and market_still_open(px.index[-1])
+    if intraday:
+        print("  market is still open: today's prices are intraday, so no paper picks or 'since' baseline are recorded this run")
+    # an unfinished day is never recorded as an entry (the log is append-only); the after-close run does it
+    state, new = paper.update(all_series, px.iloc[:-1] if intraday else px, tickers)
     if new:
         print(f"  recorded new picks for {[d.date() for d in new]}")
     perf = paper.performance(state, px, bench)
@@ -552,7 +567,8 @@ def _main(log=None) -> None:
     slim_data["detail_file"] = "detail.json"
     (OUT.parent / "detail.json").write_text(json.dumps(detail, separators=(",", ":")))
     OUT.write_text(json.dumps(slim.pack(slim_data), separators=(",", ":")))
-    snap_file.write_text(json.dumps(cur_snap, indent=1))
+    if not intraday:     # keep yesterday's close as the baseline until the after-close run
+        snap_file.write_text(json.dumps(cur_snap, indent=1))
     s = bt_stats["strategy"]
     print(f"Done → {OUT.relative_to(ROOT)}")
     print(f"  Backtest CAGR {s['cagr']:.1%} | Sharpe {s['sharpe']:.2f} | MaxDD {s['max_drawdown']:.1%}")
