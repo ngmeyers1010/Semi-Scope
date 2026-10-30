@@ -299,9 +299,49 @@ def current_nets(px: pd.DataFrame, tickers, weights: dict, hs=HORIZONS, levels=L
                     wv = np.full(len(methods), 1.0 / len(methods))
                 else:
                     wv = np.array([wm[m] for m in methods])
-                d[(h, l)] = {"blend": float(wv @ vals), "lo": float(vals.min()), "hi": float(vals.max())}
+                d[(h, l)] = {"blend": float(wv @ vals), "lo": float(vals.min()), "hi": float(vals.max()),
+                             "c": {m: float(v) for m, v in zip(methods, vals)}}
         if d:
             out[t] = d
+    return out
+
+
+# ----------------------------------------------------------------------------- did the price escape its net?
+def track(px: pd.DataFrame, cur: dict, prev_track: dict | None, hs=HORIZONS, levels=LEVELS) -> dict:
+    """Remember each net from the day it was set and watch whether the price breaks out of it.
+
+    {ticker: {h: {'active': A, 'last': A or None}}} where A = {date, ref, age, up, down, c: {level: {method: c}}}
+      date/ref  the day the net was set and that day's close (the centre of the net)
+      age       trading days since (capped at h: after h days the window is over)
+      up/down   the biggest rise / fall (as log-returns from ref) seen so far inside the window
+    A net stays fixed for its h-day window, then is judged ('last') and replaced by a fresh one set at
+    the latest close. This is what lets a page say "this stock has left the net it had on Oct 21".
+    Only closing prices are used, so an intraday spike that closed back inside is not counted.
+    """
+    out = {}
+    for t, d in cur.items():
+        if t not in px.columns:
+            continue
+        s = px[t].where(px[t] > 0).dropna()
+        if s.empty:
+            continue
+        for h in hs:
+            if not all((h, l) in d for l in levels):
+                continue
+            old = ((prev_track or {}).get(t) or {}).get(str(h)) or ((prev_track or {}).get(t) or {}).get(h) or {}
+            act, last = old.get("active"), old.get("last")
+            if act:
+                after = s[s.index > pd.Timestamp(act["date"])].iloc[:h]
+                mv = np.log(after.values / act["ref"]) if len(after) else np.array([0.0])
+                act = {**act, "age": int(len(after)),
+                       "up": round(float(max(mv.max(), 0.0)), 5), "down": round(float(min(mv.min(), 0.0)), 5)}
+                if act["age"] >= h:                       # window over: judge it and start a new net
+                    last, act = act, None
+            if not act:
+                act = {"date": s.index[-1].strftime("%Y-%m-%d"), "ref": round(float(s.iloc[-1]), 4), "age": 0,
+                       "up": 0.0, "down": 0.0,
+                       "c": {str(l): {m: round(v, 5) for m, v in d[(h, l)]["c"].items()} for l in levels}}
+            out.setdefault(t, {})[str(h)] = {"active": act, "last": last}
     return out
 
 
@@ -354,13 +394,16 @@ def build(px: pd.DataFrame, close_last: pd.Series | None, tickers, prev: dict | 
     # both paths use the weights exactly as stored (rounded), so a --fast run reproduces a full run
     weights = {(int(k.split("|")[0]), float(k.split("|")[1])): v for k, v in weights_out.items()}
     cur = current_nets(px, tickers, weights, hs, levels, methods, mood)
+    tracked = track(px, cur, (prev or {}).get("track") if prev and prev.get("available") else None, hs, levels)
     current = {}
     for t, d in cur.items():
         last = float(close_last[t]) if close_last is not None and t in close_last.index and np.isfinite(close_last[t]) else None
         current[t] = {f"{h}|{l}": {"pct": _pct(v["blend"]), "lo_pct": _pct(v["lo"]), "hi_pct": _pct(v["hi"]),
+                                   "c": {m: round(x, 5) for m, x in v["c"].items()},
                                    "low": round(last * math.exp(-v["blend"]), 2) if last else None,
                                    "high": round(last * math.exp(v["blend"]), 2) if last else None}
                       for (h, l), v in d.items()}
     return {"available": True, "asof": asof, "study_asof": study_asof, "n_dates": n_dates,
             "horizons": list(hs), "levels": list(levels), "methods": list(methods), "labels": LABELS,
-            "mood": mood, "table": table_out, "weights": weights_out, "current": current, "read": read}
+            "mood": mood, "table": table_out, "weights": weights_out, "current": current, "track": tracked,
+            "read": read}

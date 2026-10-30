@@ -479,6 +479,9 @@ table.corr td{border-radius:4px;font-size:12px}
       <div class="tbl-wrap" tabindex="0"><table id="bands-table"></table></div>
       <p class="sub" id="bands-read" style="margin:8px 0"></p>
       <h3 style="margin:14px 0 4px;font-size:14px">Your stocks and today's picks: the net right now</h3>
+      <div class="sub">Pick which method's net to look at, or keep <b>Blend</b> and drag the weights yourself. The starting weights are the ones SemiScope earned from the tests above (for today's market mood). <b>Status</b> flags a stock whose closing price left the net it had when the net was set.</div>
+      <div class="row" style="margin:8px 0;gap:10px;flex-wrap:wrap"><div class="seg" id="bands-m" role="group" aria-label="Method"></div></div>
+      <div id="bands-sliders" style="margin:6px 0"></div>
       <div class="tbl-wrap" tabindex="0"><table id="bands-now"></table></div>
     </div>
     <div class="card">
@@ -1386,14 +1389,40 @@ function renderStreakEdge(){
 }
 const BANDS_LABELS = {normal:'Bell curve', quantile:'Past windows', ewma:'Recent-weighted', bootstrap:'Resampled',
   equal:'Equal average', perf:'Weighted blend', regime:'Mood-weighted blend'};
-let bandsH = 5, bandsL = 0.9, bandsWired = false;
-function renderBands(){
+let bandsH = 5, bandsL = 0.9, bandsWired = false, bandsM = 'blend', bandsW = {};
+const bandsStoreKey = k => 'semiscope.bandsW.'+k;
+function bandsLoadW(k){ try { return JSON.parse(localStorage.getItem(bandsStoreKey(k))||'null'); } catch(e){ return null; } }
+function bandsSaveW(k, w){ try { if (w) localStorage.setItem(bandsStoreKey(k), JSON.stringify(w)); else localStorage.removeItem(bandsStoreKey(k)); } catch(e){} }
+// c (log half-width) for one stock: a single method, or the weighted blend. Weights need not sum to 1.
+function bandsC(cm, mode, w){
+  if (!cm) return null;
+  if (mode !== 'blend') return cm[mode] ?? null;
+  let num = 0, den = 0; for (const m in cm){ const x = w[m] ?? 0; num += x*cm[m]; den += x; }
+  return den > 0 ? num/den : null;
+}
+// Has the price left the net it had on the day the net was set? Uses the biggest rise/fall seen since.
+function bandsStatus(tr, lvl, mode, w){
+  const pick = a => { if (!a) return null; const c = bandsC((a.c||{})[lvl], mode, w); if (c==null) return null;
+    const up = a.up||0, dn = -(a.down||0); return {a, c, over: up>c ? 'above' : dn>c ? 'below' : null}; };
+  const cur = pick(tr && tr.active), old = pick(tr && tr.last);
+  if (cur && cur.over) return {st:'out', dir:cur.over, date:cur.a.date, now:true};
+  if (cur && cur.a.age>0) return {st:'in', date:cur.a.date, age:cur.a.age};
+  if (old && old.over) return {st:'out', dir:old.over, date:old.a.date, now:false};
+  return {st:'new', date: cur ? cur.a.date : ''};
+}
+function renderBands(keepFocus){
   const B = (D.research||{}).bands, card = document.getElementById('bands-card');
   card.hidden = !(B && B.available && B.table); if (card.hidden) return;
   if (!bandsWired){
     bandsWired = true;
     document.getElementById('bands-h').addEventListener('click', e=>{ const b = e.target.closest('button'); if (b){ bandsH = +b.dataset.h; renderBands(); } });
     document.getElementById('bands-l').addEventListener('click', e=>{ const b = e.target.closest('button'); if (b){ bandsL = +b.dataset.l; renderBands(); } });
+    document.getElementById('bands-m').addEventListener('click', e=>{ const b = e.target.closest('button'); if (b){ bandsM = b.dataset.m; renderBands(); } });
+    document.getElementById('bands-sliders').addEventListener('input', e=>{
+      const r = e.target.closest('input[type=range]'); if (!r) return;
+      const k = bandsH+'|'+bandsL; bandsW[k] = {...(bandsW[k]||{}), [r.dataset.m]: +r.value/100}; bandsSaveW(k, bandsW[k]); renderBands(r.dataset.m); });
+    document.getElementById('bands-sliders').addEventListener('click', e=>{
+      if (e.target.id==='bands-reset'){ const k = bandsH+'|'+bandsL; delete bandsW[k]; bandsSaveW(k, null); renderBands(); } });
   }
   document.querySelectorAll('#bands-h button').forEach(b=>b.setAttribute('aria-pressed', String(+b.dataset.h===bandsH)));
   document.querySelectorAll('#bands-l button').forEach(b=>b.setAttribute('aria-pressed', String(+b.dataset.l===bandsL)));
@@ -1415,13 +1444,45 @@ function renderBands(){
         <td>${(r.cov*100).toFixed(0)}% <span class="${tag[1]}">${tag[0]}</span></td><td>${half(r.width)}</td><td>${r.loss.toFixed(5)}</td><td>${wt}</td></tr>`;
     }).join('') + '</tbody>';
   document.getElementById('bands-read').textContent = B.read || '';
-  const cur = B.current || {}, names = Object.keys(cur).filter(t=>cur[t][key]);
+  // ---- method switcher, weight sliders, status flags
+  const ms = B.methods || [], def = {...(wnow||{})};
+  if (!(key in bandsW)) bandsW[key] = bandsLoadW(key);
+  const custom = bandsW[key] && ms.some(m => Math.abs((bandsW[key][m] ?? def[m] ?? 0) - (def[m] ?? 0)) > 0.005);
+  const wUse = {}; ms.forEach(m => wUse[m] = (bandsW[key] && bandsW[key][m] != null) ? bandsW[key][m] : (def[m] ?? 1/ms.length));
+  if (bandsM !== 'blend' && !ms.includes(bandsM)) bandsM = 'blend';
+  document.getElementById('bands-m').innerHTML = ['blend', ...ms].map(m =>
+    `<button data-m="${m}" aria-pressed="${m===bandsM}">${m==='blend' ? (custom ? 'Blend (yours)' : 'Blend') : BANDS_LABELS[m]}</button>`).join('');
+  const sl = document.getElementById('bands-sliders');
+  if (bandsM === 'blend'){
+    const tot = ms.reduce((a,m)=>a+wUse[m],0) || 1;
+    if (!keepFocus || !sl.querySelector('input')){
+      sl.innerHTML = ms.map(m => `<label style="display:flex;align-items:center;gap:8px;margin:3px 0;font-size:13px">
+        <span style="width:120px">${BANDS_LABELS[m]}</span>
+        <input type="range" min="0" max="100" step="5" value="${Math.round(wUse[m]*100)}" data-m="${m}" aria-label="Weight for ${BANDS_LABELS[m]}" style="flex:1;max-width:260px">
+        <span id="bw-${m}" style="width:44px;text-align:right">${Math.round(wUse[m]/tot*100)}%</span></label>`).join('') +
+        `<div class="sub" style="margin-top:4px">${custom ? 'Using your weights.' : 'Using the earned weights.'} <button id="bands-reset" ${custom?'':'disabled'}>Reset to default</button> Saved in this browser only.</div>`;
+    } else {
+      ms.forEach(m => { const el = document.getElementById('bw-'+m); if (el) el.textContent = Math.round(wUse[m]/tot*100)+'%'; });
+      const note = sl.querySelector('.sub'); if (note){ const rb = document.getElementById('bands-reset'); if (rb) rb.disabled = !custom;
+        note.firstChild.textContent = custom ? 'Using your weights. ' : 'Using the earned weights. '; }
+    }
+  } else sl.innerHTML = `<div class="sub">Showing the <b>${BANDS_LABELS[bandsM]}</b> net on its own.</div>`;
+  const cur = B.current || {}, trk = B.track || {}, names = Object.keys(cur).filter(t=>cur[t][key]);
   const mine = new Set(D.my_stocks?.holdings || []);
+  const rowsNow = names.map(t => {
+    const c = cur[t][key], cc = bandsC(c.c, bandsM, wUse), ref = (trk[t]?.[bandsH]?.active?.ref);
+    const last = c.low!=null && c.high!=null ? Math.sqrt(c.low*c.high) : null;     // today's close (centre of the net)
+    return {t, c, cc, last, s: bandsStatus(trk[t]?.[bandsH], String(bandsL), bandsM, wUse)};
+  });
+  const nOut = rowsNow.filter(r=>r.s.st==='out' && r.s.now).length;
+  const flag = s => s.st==='out' ? `<span class="neg" title="Closed outside the net set on ${hEsc(s.date)}${s.now?'':' (that window has ended)'}">${s.dir==='above'?'▲ ABOVE':'▼ BELOW'} net${s.now?'':' (last window)'}</span>`
+                  : s.st==='in' ? `<span class="pos" title="Net set ${hEsc(s.date)}, ${s.age} trading day(s) ago">inside</span>` : '<span class="sub" title="Net just set; nothing to judge yet">new net</span>';
   document.getElementById('bands-now').innerHTML = names.length ?
-    '<thead><tr><th class="l">Stock</th><th>Net: low</th><th>High</th><th title="Approximate move each way, from the blended net.">≈ Each way</th><th title="The narrowest and widest net among the individual methods.">Methods range</th></tr></thead><tbody>' +
-    names.map(t=>{ const c = cur[t][key];
-      return `<tr><td class="l">${hEsc(t)}${mine.has(t)?' <span class="sub">(yours)</span>':''}</td><td>${c.low==null?'—':'$'+c.low.toFixed(2)}</td><td>${c.high==null?'—':'$'+c.high.toFixed(2)}</td>
-        <td>±${c.pct.toFixed(1)}%</td><td>${c.lo_pct.toFixed(1)}% – ${c.hi_pct.toFixed(1)}%</td></tr>`; }).join('') + '</tbody>'
+    `<thead><tr><th class="l">Stock</th><th>Net: low</th><th>High</th><th title="Approximate move each way, for the method shown.">≈ Each way</th><th title="The narrowest and widest net among the individual methods.">Methods range</th><th title="Did the close leave the net it had when it was set? ${nOut} outside now.">Status${nOut?` (${nOut} out)`:''}</th></tr></thead><tbody>` +
+    rowsNow.map(({t,c,cc,last,s:st})=>{
+      const lo = last && cc!=null ? last*Math.exp(-cc) : c.low, hi = last && cc!=null ? last*Math.exp(cc) : c.high;
+      return `<tr><td class="l">${hEsc(t)}${mine.has(t)?' <span class="sub">(yours)</span>':''}</td><td>${lo==null?'—':'$'+lo.toFixed(2)}</td><td>${hi==null?'—':'$'+hi.toFixed(2)}</td>
+        <td>${cc==null?'—':'±'+((Math.exp(cc)-1)*100).toFixed(1)+'%'}</td><td>${c.lo_pct.toFixed(1)}% – ${c.hi_pct.toFixed(1)}%</td><td>${flag(st)}</td></tr>`; }).join('') + '</tbody>'
     : '<tbody><tr><td class="l sub">No stocks to show yet.</td></tr></tbody>';
 }
 function renderRob(){

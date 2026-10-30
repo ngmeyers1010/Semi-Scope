@@ -193,7 +193,7 @@ def test_build_report_shape_size_prices_and_the_fast_path():
     c = out["current"][tickers[0]]["5|0.9"]
     assert c["low"] < close[tickers[0]] < c["high"] and c["lo_pct"] <= c["pct"] <= c["hi_pct"]
     assert out["current"][tickers[0]]["1|0.5"]["pct"] < out["current"][tickers[0]]["21|0.9"]["pct"]
-    assert len(json.dumps(out)) < 16_000                              # small enough to ship in data.json
+    assert len(json.dumps(out)) < 40_000                              # small enough to ship in data.json
     json.loads(json.dumps(out))                                       # plain JSON, no numpy types
     assert out["read"].startswith("For a 5-day, 90% net")
     # --fast: reuse the comparison, recompute only today's nets
@@ -205,3 +205,50 @@ def test_build_report_shape_size_prices_and_the_fast_path():
 def test_build_says_so_when_there_are_not_enough_prices():
     out = bands.build(iid_market(T=200, N=3), None, ["S0"])
     assert out["available"] is False and "prices" in out["reason"]
+
+
+# ----------------------------------------------------------------------------- watching for a breakout
+def _walk(vals):
+    return pd.DataFrame({"X": vals}, index=pd.bdate_range("2020-01-01", periods=len(vals)))
+
+
+def _cur(c=0.05, hs=(5,), levels=(0.9,)):
+    return {"X": {(h, l): {"c": {"normal": c}} for h in hs for l in levels}}
+
+
+def test_track_sets_a_net_watches_it_and_flags_the_close_that_leaves_it():
+    px = _walk([100.0] * 10)
+    t = bands.track(px, _cur(), None, hs=(5,), levels=(0.9,))
+    a = t["X"]["5"]["active"]
+    assert a["ref"] == 100 and a["age"] == 0 and a["up"] == 0 == a["down"] and t["X"]["5"]["last"] is None
+    assert a["c"]["0.9"]["normal"] == 0.05
+    px2 = _walk([100.0] * 10 + [103.0, 98.0])
+    t2 = bands.track(px2, _cur(0.04), t, hs=(5,), levels=(0.9,))
+    a2 = t2["X"]["5"]["active"]
+    assert a2["date"] == a["date"] and a2["age"] == 2 and a2["c"] == a["c"]       # the net did NOT move
+    assert a2["up"] == pytest.approx(math.log(1.03), abs=1e-5) and a2["down"] == pytest.approx(math.log(0.98), abs=1e-5)
+
+
+def test_track_ends_the_window_after_h_days_and_starts_a_new_net():
+    px = _walk([100.0] * 10)
+    t = bands.track(px, _cur(), None, hs=(5,), levels=(0.9,))
+    px2 = _walk([100.0] * 10 + [101, 102, 103, 112, 111])               # day 4 is a +12% breakout
+    t2 = bands.track(px2, _cur(0.04), t, hs=(5,), levels=(0.9,))
+    last, act = t2["X"]["5"]["last"], t2["X"]["5"]["active"]
+    assert last["up"] == pytest.approx(math.log(1.12), abs=1e-5) and last["age"] == 5
+    assert act["age"] == 0 and act["ref"] == 111 and act["c"]["0.9"]["normal"] == 0.04
+    px3 = _walk([100.0] * 10 + [101, 102, 103, 112, 111, 150])           # moves after the window don't count in `last`
+    t3 = bands.track(px3, _cur(0.04), t, hs=(5,), levels=(0.9,))
+    assert t3["X"]["5"]["last"]["up"] == last["up"]
+
+
+def test_build_includes_per_method_widths_and_a_track_that_survives_runs():
+    px = clustered_market(T=1200, N=4, seed=7)
+    tk = list(px.columns[:2])
+    a = bands.build(px.iloc[:-3], px.iloc[-4], tk)
+    c = a["current"][tk[0]]["5|0.9"]
+    assert set(c["c"]) == set(bands.METHODS) and min(c["c"].values()) <= math.log(1 + c["pct"] / 100) <= max(c["c"].values())
+    b = bands.build(px, px.iloc[-1], tk, prev=a, fast=True)
+    assert b["track"][tk[0]]["5"]["active"]["date"] == a["track"][tk[0]]["5"]["active"]["date"]
+    assert b["track"][tk[0]]["5"]["active"]["age"] == 3
+    json.loads(json.dumps(b))
