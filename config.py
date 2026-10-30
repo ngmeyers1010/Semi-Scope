@@ -65,6 +65,8 @@ KNOWN_NAMES = {
     "META": {"name": "Meta", "group": "Watchlist", "sec": True},
     "TSLA": {"name": "Tesla", "group": "Watchlist", "sec": True},
     "ORCL": {"name": "Oracle", "group": "Watchlist", "sec": True},
+    # foreign filer (20-F, annual only): quarters are typed into state/foreign_fundamentals.csv
+    "SHEL": {"name": "Shell", "group": "Watchlist", "sec": False},
 }
 import mystocks as _mystocks  # noqa: E402  (needs UNIVERSE above)
 MY_STOCKS = _mystocks.parse()
