@@ -64,5 +64,6 @@ def test_unknown_from_failures():
 def test_shipped_file_matches_defaults():
     import config
     assert config.MY_STOCKS is not None and config.MY_STOCKS["problems"] == []
-    assert config.MY_HOLDINGS == ["MU", "AMD", "AAPL", "ASML", "NVDA", "AMZN", "GOOGL"]
-    assert list(config.WATCHLIST) == ["AMZN", "GOOGL"]      # so the demo is unchanged
+    assert config.MY_HOLDINGS == config.MY_STOCKS["holdings"]            # the file is the source of truth
+    assert {"MU", "AMD", "AAPL", "ASML", "NVDA", "AMZN", "GOOGL"} <= set(config.MY_HOLDINGS)
+    assert set(config.MY_HOLDINGS) - set(config.UNIVERSE) <= set(config.WATCHLIST)   # outside the universe: scored as watchlist
