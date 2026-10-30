@@ -99,6 +99,10 @@ def compute(prev: dict | None, cur: dict) -> list[dict]:
             add("info", "system", f"Switched from {prev.get('mode')} to {cur.get('mode')} data — change alerts start next run.")
         return alerts
 
+    import sellrules                         # holdings where a rule that WORKED in past tests just fired
+    for a in sellrules.alerts_for(cur, prev):
+        add(a["level"], a["kind"], a["text"])
+
     p_sig, c_sig = _holding_signals(prev), _holding_signals(cur)
     for t, (sig, r) in c_sig.items():
         if t in p_sig and p_sig[t][0] != sig:

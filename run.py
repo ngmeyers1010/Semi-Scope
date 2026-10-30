@@ -54,6 +54,7 @@ import concentration
 import score_moves
 import week_diff
 import streak_edge
+import sellrules
 import capture
 import sanity
 import drawdowns
@@ -422,6 +423,17 @@ def _main(log=None) -> None:
                  for h in holdings}
     hold_rank = {t: (int(r) if r is not None and not pd.isna(r) else None) for t, r in hold_rank.items()}
     n_ranked = int(ranked["score"].notna().sum())
+    # which "time to sell?" rules actually worked on this universe's history, and which fire for your holdings now
+    # (sellrules.py). Only rules that passed the test can raise an alert.
+    print("Sell rules…")
+    try:
+        sells = sellrules.build(net_px, panel, MY_HOLDINGS, hold_rank, (quarters[-1]["picks"] if quarters else []),
+                                TOP_N, n_ranked, tickers)
+    except Exception as e:                                  # informational only: never fail the run for it
+        print(f"  ! sell rules skipped: {type(e).__name__}: {e}")
+        sells = {"available": False, "reason": "could not be computed this run"}
+    if sells.get("available"):
+        print(f"  {sells['read']}")
     vol63 = sizing.trailing_vol(px, [r["ticker"] for r in top], asof)
     _f = lambda v: None if v is None or pd.isna(v) else float(v)
     order_inputs = {
@@ -465,7 +477,8 @@ def _main(log=None) -> None:
         },
         "research": {"card": card, "ic": ic_series, "robustness": robust, "oos": oos, "start_luck": luck, "decay": dec,
                      "streak_edge": streak_edge.build(quarters),    # do stayers beat new picks?
-                     "bands": nets},                                # how far can a stock swing? (bands.py)
+                     "bands": nets,                                 # how far can a stock swing? (bands.py)
+                     "sell_rules": sells},                          # which sell rules worked, and what fires now (sellrules.py)
         "paper": None if perf is None else {
             "curves": {k: _curve(v, "D") for k, v in perf["curves"].items()},
             "stats": perf["stats"], "holdings": perf["holdings"], "entries": perf["entries"],

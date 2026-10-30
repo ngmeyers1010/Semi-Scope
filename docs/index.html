@@ -290,6 +290,13 @@ table.corr td{border-radius:4px;font-size:12px}
       <div class="sub">Your stocks and the model's picks. Dates are estimates from each company's filing rhythm (the earnings call is usually the same day or a little earlier). The band is last price ± the typical next-day move: it shows how <i>big</i> a reaction usually is, never which way.</div>
       <div id="ecal-body"></div>
     </div>
+    <div class="card" id="sell-card" hidden>
+      <h2>Consider selling?</h2>
+      <div class="sub">Rules for when to sell, <b>tested on the whole universe's history first</b>. For each rule: among stocks on dates a month apart, how did the ones the rule flagged do over the next 21 trading days, compared with the others? <b>Worked</b> means the flagged stocks did reliably worse (selling would have helped); only those rules raise alerts. Others are shown as facts, not advice. A flag means "a rule fired", not "sell now". Research tool, not financial advice.</div>
+      <div id="sell-flags"></div>
+      <p class="sub" id="sell-read" style="margin:8px 0"></p>
+      <div class="tbl-wrap" tabindex="0"><table id="sell-table"></table></div>
+    </div>
     <div class="card">
       <div class="row"><h2>My stocks</h2><a class="btn" id="edit-stocks" target="_blank" rel="noopener">Edit my stocks</a></div>
       <div class="sub">Where the stocks you own rank right now. Non-chip stocks (like AMZN, GOOGL) are scored on the same yardstick and shown where they <i>would</i> rank. Tap one for its full breakdown. Your list lives in <code>state/my_stocks.csv</code>.</div>
@@ -820,6 +827,24 @@ function renderEarningsCal(){
     <div class="tbl-wrap" tabindex="0"><table><tbody>${rs.map(r=>{ const small = r.band && r.band[0] < 100;
       return `<tr><td class="l"><span class="tick">${hEsc(r.ticker)}</span>${r.owned?' <span class="pill">owned</span>':''}${r.pick?' <span class="pill">pick</span>':''}<div class="sub">≈${when(r)} · ${rel(r.days)}</div></td>
       <td title="${r.biggest?'Biggest past reaction '+pct(r.biggest.ret)+' ('+hEsc(r.biggest.day||'')+')':''}">${r.move==null?'<span class="muted">no history</span>':'±'+(r.move*100).toFixed(1)+'%'+(r.n?` <span class="muted">· up ${r.ups}/${r.n}</span>`:'')}<div class="sub">${r.band?'≈'+money(r.band[0],small)+'–'+money(r.band[1],small):''}</div></td></tr>`; }).join('')}</tbody></table></div>`).join('');
+}
+function renderSell(){
+  const S = (D.research||{}).sell_rules, card = document.getElementById('sell-card');
+  card.hidden = !(S && S.available); if (card.hidden) return;
+  const pctf = v => v==null ? '—' : (v>=0?'+':'')+(v*100).toFixed(1)+'%';
+  const VER = {worked:['Worked','pos'], hurt:['Hurt','neg'], 'no clear edge':['No clear edge',''], 'too few to tell':['Too few to tell','']};
+  const now = S.now||{}, names = Object.keys(now);
+  const flagged = names.map(t => `<tr><td class="l">${hEsc(t)}</td><td class="l">${now[t].map(h =>
+      `<span class="${h.validated?'neg':'sub'}" style="margin-right:12px" title="${h.validated?'This rule worked in past tests':'Not validated: shown for information only'}">${h.validated?'⚠ ':''}${hEsc(h.label)}: ${hEsc(h.detail)}${h.validated?'':' (not validated)'}</span>`).join('')}</td></tr>`).join('');
+  document.getElementById('sell-flags').innerHTML = names.length
+    ? `<div class="tbl-wrap" tabindex="0"><table><thead><tr><th class="l">Your stock</th><th class="l">Rules firing today</th></tr></thead><tbody>${flagged}</tbody></table></div>`
+    : '<p class="sub" style="margin:8px 0">None of your stocks is triggering any of these rules today.</p>';
+  document.getElementById('sell-read').textContent = S.read || '';
+  document.getElementById('sell-table').innerHTML =
+    '<thead><tr><th class="l">Rule</th><th title="Flagged stocks\' average gain over the next month vs the average stock">Flagged did</th><th title="Stocks not flagged, same measure">Others did</th><th title="Flagged minus others, averaged over test dates. Negative = flagged did worse.">Gap</th><th title="t-statistic of the gap across test dates. Needs to be -2.5 or lower to pass.">t</th><th>Tests</th><th class="l">Verdict</th></tr></thead><tbody>' +
+    S.rules.map(r => { const v = VER[r.verdict] || [r.verdict,'']; return `<tr><td class="l" title="${hEsc(r.plain)}">${hEsc(r.label)}</td>
+      <td>${pctf(r.fired)}</td><td>${pctf(r.not_fired)}</td><td class="${r.verdict==='worked'?'pos':''}">${pctf(r.diff)}</td><td>${r.t==null?'—':r.t.toFixed(1)}</td>
+      <td title="Test dates (price rules) or quarterly rebalances (rank rules)">${r.n_dates}</td><td class="l ${v[1]}">${v[0]}</td></tr>`; }).join('') + '</tbody>';
 }
 function renderMine(){
   const H = D.holdings||[], n = D.universe_size;
@@ -2017,7 +2042,7 @@ function renderHow(){
 // and charts get measured while visible).
 const TAB_RENDER = {
   paper: ()=>{ renderDigest(); renderPaper(); renderRebalance(); renderConcentration(); renderReports(); renderRisk(); renderInvest(); },
-  mine:  ()=>{ renderEarningsCal(); renderMine(); renderReal(); },
+  mine:  ()=>{ renderEarningsCal(); renderSell(); renderMine(); renderReal(); },
   rank:  ()=>{ renderRank(); renderWalk(); renderWeek(); renderGroups(); renderCycle(); renderCompare(); },
   bt:    ()=>{ renderBT(); renderAttribution(); renderEdge(); renderSteady(); renderOutcomes(); renderDrawdowns(); renderCapture(); },
   res:   ()=>{ renderRes(); renderOOS(); renderBands(); renderRob(); renderLuck(); renderDecay(); renderStreakEdge(); },
