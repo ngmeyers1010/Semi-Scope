@@ -49,7 +49,7 @@ def test_split_merge_roundtrip():
     assert back["holdings"][0]["current"]["px_1y"] == s["rankings"][0]["px_1y"]   # holdings reuse the ranking row
 
 
-GZ_BUDGET = 70_000          # ~70 KB over the wire: loads in well under a second on 4G
+GZ_BUDGET = 90_000          # ~90 KB over the wire: still well under a second on 4G (was 70 KB until the full trade history, 75 trades, was added 2026-10-30)
 
 
 def test_real_file_budget_and_roundtrip():
