@@ -33,6 +33,7 @@
 ## Earnings coming up (next 14 days)
 - GOOGL ≈Oct 30 (tomorrow): usually moves ±0.9% the next day (≈$281–$286); up 4 of last 8.
 - HCA ≈Oct 30 (tomorrow): usually moves ±1.5% the next day (≈$471–$485); up 4 of last 8.
+- SHEL ≈Oct 30 (tomorrow): usually moves ±0.8% the next day (≈$107–$109); up 3 of last 8.
 - TER ≈Oct 30 (tomorrow): usually moves ±1.8% the next day (≈$291–$302); up 3 of last 8.
 - AAPL ≈Oct 31 (in 2 days): usually moves ±1.9% the next day (≈$342–$355); up 2 of last 8.
 - AMZN ≈Oct 31 (in 2 days): usually moves ±2.1% the next day (≈$239–$249); up 4 of last 8.
@@ -51,7 +52,7 @@
 - NVDA: Top pick (#5/29)
 - AMZN: Bottom quarter (≈#26/29)
 - GOOGL: Bottom quarter (≈#27/29)
-- SHEL: Not ranked (unranked)
+- SHEL: Above median (≈#9/29)
 - HCA: Below median (≈#18/29)
 - HD: Bottom quarter (≈#27/29)
 - IONQ: Below median (≈#21/29)
@@ -77,13 +78,13 @@
 - TER: ≈2026-10-30 (in 1 day)
 - ENTG: ≈2026-10-30 (in 1 day)
 - GOOGL (yours): ≈2026-10-30 (in 1 day)
+- SHEL (yours): ≈2026-10-30 (in 1 day)
 - HCA (yours): ≈2026-10-30 (in 1 day)
 - STX: ≈2026-10-31 (in 2 days)
 - KLAC: ≈2026-10-31 (in 2 days)
 - AAPL (yours): ≈2026-10-31 (in 2 days)
-- AMZN (yours): ≈2026-10-31 (in 2 days)
 
 ## Data
-- 32/39 companies clean; check: HCA, IONQ, PACS, RVII, SHEL, STDN
+- 33/39 companies clean; check: HCA, IONQ, PACS, RVII, STDN, WDC
 
 _Research tool, not financial advice._
