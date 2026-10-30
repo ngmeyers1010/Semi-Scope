@@ -1,88 +1,93 @@
-# SemiScope digest — 2026-10-29
+# SemiScope digest — 2026-10-30
 
 ## Since last run
-- Up to date: nothing new since Oct 29.
+- Since Oct 29: STX entered the top 5; NVDA left the top 5; AAPL fell #21 → #23; NVDA fell #5 → #6; SHEL fell #9 → #24; HCA fell #18 → #24; IONQ fell #21 → #23; PACS fell #21 → #23; your P&L −$933; paper portfolio −10.8 pts; 10 new alerts.
 
 ## Cycle: Upswing
 - Sales growing and accelerating — the sweet spot for chip stocks.
 - Median sales growth +38.0%; 79% of companies accelerating.
 
 ## Top 5 right now
-- MU (+1.15), ASML (+0.88), TER (+0.46), AMD (+0.41), NVDA (+0.34)
-- No changes since the last update.
+- MU (+1.15), ASML (+0.88), TER (+0.49), AMD (+0.43), STX (+0.38)
+- STX entered the top 5 — because: Price momentum +30.3% → +15.1% (-0.08); Revenue acceleration +4.4% → +12.5% (+0.07)
+- NVDA left the top 5 — because: Revenue acceleration +20.6% → +20.6% (-0.01); Price momentum +16.6% → +18.1% (-0.00)
+
+## Biggest score moves since 2026-10-29
+- SHEL -0.56 (#9 → #24): mostly Revenue acceleration +44.1% → -8.5% (-0.51).
+- HCA -0.22 (#18 → #24): mostly Revenue acceleration +4.4% → -5.1% (-0.16).
+- KLAC +0.19 (#25 → #21): mostly Revenue acceleration +3.7% → +13.7% (+0.10).
+- GOOGL -0.18: spread out: Gross-margin change YoY +2.1% → +0.1% (-0.07); FCF margin +11.9% → +4.2% (-0.05).
+- ENTG +0.15 (#24 → #22): spread out: Inventory-days change YoY -5d → +9d (-0.07); Gross-margin change YoY +3.2% → +6.2% (+0.07).
+- Each number is that stat's share of the score change; the shares add up to the total.
 
 ## What could $1,000 become? (backtest replayed)
-- Replaying the backtest's 59 quarters in random 1-year blocks, $1,000 became $2,886 to $16,342 after 5 years in 8 of 10 replays (middle: $6,373). After 1 year it was below $1,000 in 9% of replays, and it beat SPY over 5 years in 98%. The worst 1 in 20 replays fell 31% or more at some point. This replays the past; it is not a forecast.
+- Replaying the backtest's 59 quarters in random 1-year blocks, $1,000 became $2,870 to $16,263 after 5 years in 8 of 10 replays (middle: $6,332). After 1 year it was below $1,000 in 9% of replays, and it beat SPY over 5 years in 98%. The worst 1 in 20 replays fell 31% or more at some point. This replays the past; it is not a forecast.
 
 ## Drawdowns (backtest)
 - The worst drop (−53%, 2024-06 to 2025-04) took 15 months to get back to the old high; SOXX fell 41% in the same stretch and took 14 months. It spent 31% of all days more than 10% below its previous high.
 
 ## Up/down capture (backtest)
 - Catches 123% of SOXX's up months and 88% of its down months: more of the gains, less of the losses.
-- Catches 194% of SPY's up months and 81% of its down months: more of the gains, less of the losses.
+- Catches 198% of SPY's up months and 93% of its down months: more of the gains, less of the losses.
 
 ## Questions for this week
 - ASML rose from #14 to #2 since the 2026-09-01 rebalance. Which stat drove it, and do you think that change will last?
-- TER joined the top 5 this week (from #7 to #3). Which stat moved it up, and is it the kind of change that lasts a quarter, or a few good days of price?
-- AAPL trades at 10.9× sales, the 100th percentile of its own 5-year range. What would have to be true for that price to still be cheap?
+- TER joined the top 5 this week (from #6 to #3). Which stat moved it up, and is it the kind of change that lasts a quarter, or a few good days of price?
+- IONQ trades at 45.1× sales, the 0th percentile of its own 5-year range. Is it cheap, or is the market expecting sales to fall?
 - The whole week on one screen: weekly.html on your dashboard.
 
 ## Next rebalance
-- Next rebalance ≈Dec 1 (in 33 days). If it were today: sell INTC, STX; buy ASML, TER; 2 of 5 change (41% of the portfolio, ~0.08% cost).
+- Next rebalance ≈Dec 1 (in 32 days). If it were today: sell INTC, NVDA; buy ASML, TER; 2 of 5 change (40% of the portfolio, ~0.08% cost).
 
 ## Earnings coming up (next 14 days)
-- GOOGL ≈Oct 30 (tomorrow): usually moves ±0.9% the next day (≈$281–$286); up 4 of last 8.
-- HCA ≈Oct 30 (tomorrow): usually moves ±1.5% the next day (≈$471–$485); up 4 of last 8.
-- SHEL ≈Oct 30 (tomorrow): usually moves ±0.8% the next day (≈$107–$109); up 3 of last 8.
-- TER ≈Oct 30 (tomorrow): usually moves ±1.8% the next day (≈$291–$302); up 3 of last 8.
-- AAPL ≈Oct 31 (in 2 days): usually moves ±1.9% the next day (≈$342–$355); up 2 of last 8.
-- AMZN ≈Oct 31 (in 2 days): usually moves ±2.1% the next day (≈$239–$249); up 4 of last 8.
-- AMD ≈Nov 5 (in 7 days): usually moves ±3.4% the next day (≈$547–$586); up 3 of last 8.
-- IONQ ≈Nov 5 (in 7 days): usually moves ±11.6% the next day (≈$28.03–$35.41); up 6 of last 8.
+- AAPL ≈Oct 31 (tomorrow): usually moves ±1.9% the next day (≈$341–$354); up 2 of last 8.
+- AMZN ≈Oct 31 (tomorrow): usually moves ±2.1% the next day (≈$235–$245); up 4 of last 8.
+- AMD ≈Nov 5 (in 6 days): usually moves ±3.4% the next day (≈$494–$529); up 3 of last 8.
+- IONQ ≈Nov 5 (in 6 days): usually moves ±11.6% the next day (≈$25.79–$32.57); up 6 of last 8.
 - Dates are estimates from each company's filing rhythm. Past moves show size, not direction.
 
 ## Group leadership
-- Systems leading (+11% vs SOXX over 3 months), Memory/Storage lagging (-13%); the model's top 10 is 30% Compute.
+- Analog/Power leading (+16% vs SOXX over 3 months), Memory/Storage lagging (-8%); the model's top 10 is 40% Compute.
 
 ## Your stocks
 - MU: Top pick (#1/29)
 - AMD: Top pick (#4/29)
-- AAPL: Below median (#21/29)
+- AAPL: Bottom quarter (#23/29)
 - ASML: Top pick (#2/29)
-- NVDA: Top pick (#5/29)
+- NVDA: Above median (#6/29)
 - AMZN: Bottom quarter (≈#26/29)
 - GOOGL: Bottom quarter (≈#27/29)
-- SHEL: Above median (≈#9/29)
-- HCA: Below median (≈#18/29)
+- SHEL: Bottom quarter (≈#24/29)
+- HCA: Bottom quarter (≈#24/29)
 - HD: Bottom quarter (≈#27/29)
-- IONQ: Below median (≈#21/29)
+- IONQ: Bottom quarter (≈#23/29)
 - BE: Below median (≈#18/29)
-- PACS: Below median (≈#21/29)
+- PACS: Bottom quarter (≈#23/29)
 - RVII: Not ranked (unranked)
 - STDN: Not ranked (unranked)
-- AMD: P/S 22.4x, 96th percentile of its 5-yr range (near its priciest).
-- AAPL: P/S 10.9x, 100th percentile of its 5-yr range (near its priciest).
-- IONQ: P/S 49.0x, 3rd percentile of its 5-yr range (near its cheapest).
+- AMD: P/S 20.2x, 93rd percentile of its 5-yr range (near its priciest).
+- AAPL: P/S 10.9x, 99th percentile of its 5-yr range (near its priciest).
+- IONQ: P/S 45.1x, 0th percentile of its 5-yr range (near its cheapest).
 
 ## Paper portfolio (the real test)
-- Since 2026-10-20: +2.5% vs S&P 500 +0.0% → ahead by 2.5 pts
+- Since 2026-10-20: -8.3% vs S&P 500 -1.4% → behind by 6.9 pts
 
 ## Is the edge real?
-- Statistically strong: backtest (in-sample) beat SPY by +7.2%/quarter over 59 quarters, t = 3.9.
-- Backtest: Beat SPY in 86% of 1-year windows; worst stretch Apr 2024–Apr 2025 at −45% vs SPY. Expect at least one year like that. Information ratio 1.07 (above 0.5 is good for a stock picker).
+- Statistically strong: backtest (in-sample) beat SPY by +7.1%/quarter over 59 quarters, t = 3.8.
+- Backtest: Beat SPY in 86% of 1-year windows; worst stretch Apr 2024–Apr 2025 at −45% vs SPY. Expect at least one year like that. Information ratio 1.05 (above 0.5 is good for a stock picker).
 
 ## Model health
 - Last 4 quarters' IC +0.101 — the score has been predicting returns.
 
 ## Upcoming filings (scores refresh after)
-- TER: ≈2026-10-30 (in 1 day)
-- ENTG: ≈2026-10-30 (in 1 day)
-- GOOGL (yours): ≈2026-10-30 (in 1 day)
-- SHEL (yours): ≈2026-10-30 (in 1 day)
-- HCA (yours): ≈2026-10-30 (in 1 day)
-- STX: ≈2026-10-31 (in 2 days)
-- KLAC: ≈2026-10-31 (in 2 days)
-- AAPL (yours): ≈2026-10-31 (in 2 days)
+- AAPL (yours): ≈2026-10-31 (in 1 day)
+- AMZN (yours): ≈2026-10-31 (in 1 day)
+- ON: ≈2026-11-03 (in 4 days)
+- AMD (yours): ≈2026-11-05 (in 6 days)
+- QCOM: ≈2026-11-05 (in 6 days)
+- MPWR: ≈2026-11-05 (in 6 days)
+- ANET: ≈2026-11-05 (in 6 days)
+- COHR: ≈2026-11-05 (in 6 days)
 
 ## Data
 - 33/39 companies clean; check: HCA, IONQ, PACS, RVII, STDN, WDC
