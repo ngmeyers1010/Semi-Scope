@@ -44,6 +44,7 @@ import sizing
 import earnings_moves
 import valuation
 import steady
+import bands
 import earnings_cal
 import weekly
 import rebalance
@@ -401,6 +402,22 @@ def _main(log=None) -> None:
 
     # inputs for the "Invest $X" calculator (the math itself runs in the browser)
     top = [r for r in rankings if r["rank"] is not None and not pd.isna(r["rank"])][:TOP_N]   # NaN = unscored
+
+    # price nets: how far could each stock swing in 1 / 5 / 21 trading days? Five methods compared and blended
+    # (bands.py). The comparison study is reused on --fast runs (Fridays refresh it); today's nets every run.
+    print("Price nets…")
+    net_px = px.iloc[:-1] if intraday else px             # an unfinished day would distort the volatility
+    net_names = list(dict.fromkeys(MY_HOLDINGS + [r["ticker"] for r in top]))
+    try:
+        nets = bands.build(net_px, close.iloc[-1] if len(close) else None, net_names,
+                           prev=((prev or {}).get("research") or {}).get("bands")
+                           if (prev or {}).get("mode") == ("demo" if args.demo else "live") else None,
+                           fast=(run_kind == "fast"))
+    except Exception as e:                                  # informational only: never fail the run for it
+        print(f"  ! price nets skipped: {type(e).__name__}: {e}")
+        nets = {"available": False, "reason": "could not be computed this run"}
+    if nets.get("available"):
+        print(f"  {nets['read']}")
     hold_rank = {h["ticker"]: (h["current"] or {}).get("rank") or (h["current"] or {}).get("would_rank")
                  for h in holdings}
     hold_rank = {t: (int(r) if r is not None and not pd.isna(r) else None) for t, r in hold_rank.items()}
@@ -447,7 +464,8 @@ def _main(log=None) -> None:
             "hit_rate_vs_spy": (sum(beat_spy) / len(beat_spy)) if beat_spy else None,
         },
         "research": {"card": card, "ic": ic_series, "robustness": robust, "oos": oos, "start_luck": luck, "decay": dec,
-                     "streak_edge": streak_edge.build(quarters)},   # do stayers beat new picks?
+                     "streak_edge": streak_edge.build(quarters),    # do stayers beat new picks?
+                     "bands": nets},                                # how far can a stock swing? (bands.py)
         "paper": None if perf is None else {
             "curves": {k: _curve(v, "D") for k, v in perf["curves"].items()},
             "stats": perf["stats"], "holdings": perf["holdings"], "entries": perf["entries"],

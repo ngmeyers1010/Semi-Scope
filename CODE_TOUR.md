@@ -1311,6 +1311,41 @@ Why are the cron times odd? GitHub schedules in UTC and ignores daylight saving.
 10:45am in summer; 21:17 UTC is 4:17pm in winter and 5:17pm in summer. Both are after the open and after the close
 all year. `tests/test_intraday.py` checks that for both seasons.
 
+## 8by. How far can a stock swing? (round 101)
+
+A stock's price jiggles. How far from today's price can it stray in the next day, week or month? "Net" is our name for
+the answer: a range around today's price that the price stays inside, *at every point of the window*, 90% of the time.
+
+**What exactly do we predict?** For h days, look at `S_k = log(P[t+k] / P[t])` for k = 1..h and take the biggest
+`|S_k|`. Call it M, the largest swing. A 90% net is a number c where M <= c about 90% of the time, so it is the
+90th percentile of M. (Where the price *ends* is a smaller question: the path can go far and come back.)
+
+**Five ways to guess c** (all in `bands.py`, each looks only at past returns):
+
+1. `net_normal`: measure the last year's volatility, assume a bell curve. `kappa(h, level)` is the bell curve's answer
+   for "largest swing over h steps", found once by simulation.
+2. `net_quantile`: no assumptions. Slide an h-day window over the last 3 years, record M for each, take the quantile.
+3. `net_ewma`: like the bell curve, but recent days count more, so the guess widens fast when things get wild.
+4. `net_bootstrap`: shuffle 5-day chunks of the stock's own history 400 times to build fake futures, then read off M.
+5. `net_range`: volatility from daily high-low ranges (Parkinson). Written and tested, but not wired in: we only
+   download closes. Adding High/Low to `data_sources.prices` is the next step.
+
+**How do we know which is good?** `evaluate` walks through history. At each past date it pretends it is that day,
+makes every guess, then looks at what really happened. Two scores: *coverage* (did a 90% net hold ~90% of the time?)
+and *pinball loss*, which charges a lot when the price escaped a net and a little when the net was needlessly wide.
+Both numbers matter: a huge net always "holds" and is useless.
+
+**Blending.** `blend_weights` gives each method weight proportional to loss to the power -2, then moves it halfway back
+toward equal weights. Why halfway? Weights learned from a short history chase luck. The *mood* variant only uses past
+dates with the same market mood (calm vs stormy) as today. The honest result so far: the blend beats the typical
+single method, but the weights stay near equal and mood barely matters. The card shows the numbers so you can judge.
+
+**No peeking.** The weights at date t may only use outcomes known by t (a date j counts once `j + h <= t`).
+`test_nothing_in_the_forecasts_or_the_blend_can_see_the_future` rewrites the future and checks nothing earlier moves.
+
+**Try it:** change `SHRINK` or `POWER` at the top of `bands.py` and re-run `python run.py --demo`; or call
+`bands.evaluate(px, shrink=1.0)` in a notebook to see fully loss-driven weights.
+
 ## 9. Try this (one per practice session)
 
 **Graded versions** of the newest ideas live in `practice/` (`python practice/check.py 13`):

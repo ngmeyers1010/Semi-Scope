@@ -466,6 +466,21 @@ table.corr td{border-radius:4px;font-size:12px}
       <div class="sub">Rolling 4-quarter average. Watch for the line sinking below zero — that's the model breaking.</div>
       <div class="chart-box" style="height:240px"><canvas id="ic-roll" aria-label="Rolling IC of composite score"></canvas></div>
     </div>
+    <div class="card" id="bands-card" hidden>
+      <h2>How far can a stock swing?</h2>
+      <div class="sub">A <b>net</b> is a range around today's price that the price should stay inside, <i>at every point</i> over the next few days, a set share of the time. Five methods guess its width. Each one is tested against what really happened (using only what was known at the time), then they are blended, giving more weight to those that did better. <b>Held</b> = how often the real price stayed inside the net: a 90% net should hold about 90% of the time. <b>Loss</b> = a score that punishes a net that was too narrow more than one that was too wide (lower is better). Informational only: a measure of past swing size, not a forecast or advice.</div>
+      <div class="row" style="margin:10px 0 0;gap:10px;flex-wrap:wrap">
+        <div class="seg" id="bands-h" role="group" aria-label="Window">
+          <button data-h="1" aria-pressed="false">1 day</button><button data-h="5" aria-pressed="true">1 week (5 days)</button><button data-h="21" aria-pressed="false">1 month (21 days)</button></div>
+        <div class="seg" id="bands-l" role="group" aria-label="Confidence">
+          <button data-l="0.5" aria-pressed="false">Typical (50%)</button><button data-l="0.9" aria-pressed="true">Almost always (90%)</button></div>
+      </div>
+      <div class="tiles" id="bands-tiles"></div>
+      <div class="tbl-wrap" tabindex="0"><table id="bands-table"></table></div>
+      <p class="sub" id="bands-read" style="margin:8px 0"></p>
+      <h3 style="margin:14px 0 4px;font-size:14px">Your stocks and today's picks: the net right now</h3>
+      <div class="tbl-wrap" tabindex="0"><table id="bands-now"></table></div>
+    </div>
     <div class="card">
       <h2>Robustness</h2>
       <div class="sub">Same strategy, slightly different rules. <b>Turnover</b> = share of the portfolio replaced per rebalance; <b>cost drag</b> = yearly return lost to trading costs. If results only look good under the baseline settings, the edge is probably luck. Healthy = every row beats the S&amp;P 500 by a similar margin.</div>
@@ -1369,6 +1384,46 @@ function renderStreakEdge(){
     tile('Gap, t', K.t==null ? '—' : Number(K.t).toFixed(1), `${K.quarters} quarters · 2+ = likely real`);
   document.getElementById('streak-read').textContent = K.read || '';
 }
+const BANDS_LABELS = {normal:'Bell curve', quantile:'Past windows', ewma:'Recent-weighted', bootstrap:'Resampled',
+  equal:'Equal average', perf:'Weighted blend', regime:'Mood-weighted blend'};
+let bandsH = 5, bandsL = 0.9, bandsWired = false;
+function renderBands(){
+  const B = (D.research||{}).bands, card = document.getElementById('bands-card');
+  card.hidden = !(B && B.available && B.table); if (card.hidden) return;
+  if (!bandsWired){
+    bandsWired = true;
+    document.getElementById('bands-h').addEventListener('click', e=>{ const b = e.target.closest('button'); if (b){ bandsH = +b.dataset.h; renderBands(); } });
+    document.getElementById('bands-l').addEventListener('click', e=>{ const b = e.target.closest('button'); if (b){ bandsL = +b.dataset.l; renderBands(); } });
+  }
+  document.querySelectorAll('#bands-h button').forEach(b=>b.setAttribute('aria-pressed', String(+b.dataset.h===bandsH)));
+  document.querySelectorAll('#bands-l button').forEach(b=>b.setAttribute('aria-pressed', String(+b.dataset.l===bandsL)));
+  const key = bandsH+'|'+bandsL, rows = B.table[key] || [], w = B.weights[key] || {}, wnow = w[B.mood] || w.all || {};
+  const half = c => '±'+((Math.exp(c)-1)*100).toFixed(1)+'%';
+  const best = rows.length ? rows.reduce((a,b)=>b.loss<a.loss?b:a) : null;
+  const singles = rows.filter(r=>BANDS_LABELS[r.m] && !['equal','perf','regime'].includes(r.m));
+  const bestSingle = singles.length ? singles.reduce((a,b)=>b.loss<a.loss?b:a) : null;
+  document.getElementById('bands-tiles').innerHTML =
+    tile('Market mood now', B.mood==='stormy'?'Stormy':'Calm', 'the universe\'s recent swings vs its own history', B.mood==='stormy'?'neg':'pos') +
+    tile('Best single method', bestSingle ? BANDS_LABELS[bestSingle.m] : '—', bestSingle ? `held ${(bestSingle.cov*100).toFixed(0)}% of the time` : '') +
+    tile('Tested on', `${B.n_dates||'—'} past dates`, `every ~2 weeks · full refresh ${hEsc(B.study_asof||'')}`);
+  document.getElementById('bands-table').innerHTML =
+    '<thead><tr><th class="l">Method</th><th title="How often the real price stayed inside the net. Aim: the confidence level.">Held</th><th title="Typical size of the net: how far each way, on average.">Typical net</th><th title="Lower is better. Punishes too-narrow nets most.">Loss</th><th title="How much the blend leans on this method right now.">Weight now</th></tr></thead><tbody>' +
+    rows.filter(r=>BANDS_LABELS[r.m]).map(r=>{
+      const d = r.cov - bandsL, tag = Math.abs(d)<=0.03 ? ['on target','pos'] : d<0 ? ['too narrow','neg'] : ['too wide',''];
+      const blend = ['equal','perf','regime'].includes(r.m), wt = blend ? '—' : (wnow[r.m]==null ? '—' : Math.round(wnow[r.m]*100)+'%');
+      return `<tr${blend?' style="font-weight:600"':''}><td class="l">${BANDS_LABELS[r.m]}${r===best?' <span class="pos" title="Lowest loss of all">✓ best</span>':''}</td>
+        <td>${(r.cov*100).toFixed(0)}% <span class="${tag[1]}">${tag[0]}</span></td><td>${half(r.width)}</td><td>${r.loss.toFixed(5)}</td><td>${wt}</td></tr>`;
+    }).join('') + '</tbody>';
+  document.getElementById('bands-read').textContent = B.read || '';
+  const cur = B.current || {}, names = Object.keys(cur).filter(t=>cur[t][key]);
+  const mine = new Set(D.my_stocks?.holdings || []);
+  document.getElementById('bands-now').innerHTML = names.length ?
+    '<thead><tr><th class="l">Stock</th><th>Net: low</th><th>High</th><th title="Approximate move each way, from the blended net.">≈ Each way</th><th title="The narrowest and widest net among the individual methods.">Methods range</th></tr></thead><tbody>' +
+    names.map(t=>{ const c = cur[t][key];
+      return `<tr><td class="l">${hEsc(t)}${mine.has(t)?' <span class="sub">(yours)</span>':''}</td><td>${c.low==null?'—':'$'+c.low.toFixed(2)}</td><td>${c.high==null?'—':'$'+c.high.toFixed(2)}</td>
+        <td>±${c.pct.toFixed(1)}%</td><td>${c.lo_pct.toFixed(1)}% – ${c.hi_pct.toFixed(1)}%</td></tr>`; }).join('') + '</tbody>'
+    : '<tbody><tr><td class="l sub">No stocks to show yet.</td></tr></tbody>';
+}
 function renderRob(){
   const R = D.research?.robustness; if (!R) return;
   const beat = R.filter(r=>r.beats_spy).length, cagrs = R.map(r=>r.cagr), lo=Math.min(...cagrs), hi=Math.max(...cagrs);
@@ -1904,7 +1959,7 @@ const TAB_RENDER = {
   mine:  ()=>{ renderEarningsCal(); renderMine(); renderReal(); },
   rank:  ()=>{ renderRank(); renderWalk(); renderWeek(); renderGroups(); renderCycle(); renderCompare(); },
   bt:    ()=>{ renderBT(); renderAttribution(); renderEdge(); renderSteady(); renderOutcomes(); renderDrawdowns(); renderCapture(); },
-  res:   ()=>{ renderRes(); renderOOS(); renderRob(); renderLuck(); renderDecay(); renderStreakEdge(); },
+  res:   ()=>{ renderRes(); renderOOS(); renderBands(); renderRob(); renderLuck(); renderDecay(); renderStreakEdge(); },
   learn: ()=>{},
   how:   ()=>{ renderHealth(); renderHow(); renderRunLog(); },
 };
