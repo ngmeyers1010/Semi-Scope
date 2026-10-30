@@ -14,10 +14,15 @@
   "ASML": 2,
   "NVDA": 5,
   "AMZN": 26,
-  "GOOGL": 27
+  "GOOGL": 27,
+  "HCA": 18,
+  "HD": 27,
+  "IONQ": 21,
+  "BE": 18,
+  "PACS": 21
  },
  "price_only": [],
- "pnl": 1215.5725,
+ "pnl": 1227.81966,
  "paper": 0.02509,
- "alerts": 10
+ "alerts": 11
 }

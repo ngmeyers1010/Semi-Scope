@@ -32,10 +32,12 @@
 
 ## Earnings coming up (next 14 days)
 - GOOGL ≈Oct 30 (tomorrow): usually moves ±0.9% the next day (≈$281–$286); up 4 of last 8.
+- HCA ≈Oct 30 (tomorrow): usually moves ±1.5% the next day (≈$471–$485); up 4 of last 8.
 - TER ≈Oct 30 (tomorrow): usually moves ±1.8% the next day (≈$291–$302); up 3 of last 8.
 - AAPL ≈Oct 31 (in 2 days): usually moves ±1.9% the next day (≈$342–$355); up 2 of last 8.
 - AMZN ≈Oct 31 (in 2 days): usually moves ±2.1% the next day (≈$239–$249); up 4 of last 8.
 - AMD ≈Nov 5 (in 7 days): usually moves ±3.4% the next day (≈$547–$586); up 3 of last 8.
+- IONQ ≈Nov 5 (in 7 days): usually moves ±11.6% the next day (≈$28.03–$35.41); up 6 of last 8.
 - Dates are estimates from each company's filing rhythm. Past moves show size, not direction.
 
 ## Group leadership
@@ -49,8 +51,17 @@
 - NVDA: Top pick (#5/29)
 - AMZN: Bottom quarter (≈#26/29)
 - GOOGL: Bottom quarter (≈#27/29)
+- SHEL: Not ranked (unranked)
+- HCA: Below median (≈#18/29)
+- HD: Bottom quarter (≈#27/29)
+- IONQ: Below median (≈#21/29)
+- BE: Below median (≈#18/29)
+- PACS: Below median (≈#21/29)
+- RVII: Not ranked (unranked)
+- STDN: Not ranked (unranked)
 - AMD: P/S 22.4x, 96th percentile of its 5-yr range (near its priciest).
 - AAPL: P/S 10.9x, 100th percentile of its 5-yr range (near its priciest).
+- IONQ: P/S 49.0x, 3rd percentile of its 5-yr range (near its cheapest).
 
 ## Paper portfolio (the real test)
 - Since 2026-10-20: +2.5% vs S&P 500 +0.0% → ahead by 2.5 pts
@@ -66,13 +77,13 @@
 - TER: ≈2026-10-30 (in 1 day)
 - ENTG: ≈2026-10-30 (in 1 day)
 - GOOGL (yours): ≈2026-10-30 (in 1 day)
+- HCA (yours): ≈2026-10-30 (in 1 day)
 - STX: ≈2026-10-31 (in 2 days)
 - KLAC: ≈2026-10-31 (in 2 days)
 - AAPL (yours): ≈2026-10-31 (in 2 days)
 - AMZN (yours): ≈2026-10-31 (in 2 days)
-- ON: ≈2026-11-03 (in 5 days)
 
 ## Data
-- 30/31 companies clean; check: WDC
+- 32/39 companies clean; check: HCA, IONQ, PACS, RVII, SHEL, STDN
 
 _Research tool, not financial advice._
