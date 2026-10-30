@@ -173,8 +173,9 @@ def _copy_repo(dst: Path) -> None:
     # your list, with a typo in it
     with open(dst / "state" / "my_stocks.csv", "a") as f:
         f.write(f"\n{TYPO},watch,typo on purpose\n")
-    with open(dst / "state" / "my_trades.csv", "a") as f:
-        f.write("\n2025-03-03,NVDA,buy,10,110.50,first buy\n2025-06-02,AMD,buy,5,115.00,\n")
+    (dst / "state" / "my_trades.csv").write_text(          # a known file, never the real one (its trades change)
+        "date,ticker,action,shares,price,note\n"
+        "2025-03-03,NVDA,buy,10,110.50,first buy\n2025-06-02,AMD,buy,5,115.00,\n")
 
 
 def simulate(workdir: str | Path, timeout: int = 300) -> dict:

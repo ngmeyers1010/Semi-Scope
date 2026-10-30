@@ -37,7 +37,7 @@ def load(path: Path) -> tuple[pd.DataFrame, list[str]]:
     rows, errors = [], []
     if not Path(path).exists():
         return pd.DataFrame(columns=COLUMNS), []
-    with open(path, newline="") as fh:
+    with open(path, newline="", encoding="utf-8-sig") as fh:
         lines = [(i, l) for i, l in enumerate(fh, 1) if l.strip() and not l.lstrip().startswith("#")]
     reader = csv.reader([l for _, l in lines])
     header = None
