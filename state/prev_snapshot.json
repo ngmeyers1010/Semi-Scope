@@ -1,29 +1,29 @@
 {
- "asof": "2026-11-03",
+ "asof": "2026-11-04",
  "top": [
   "MU",
   "ASML",
-  "AMD",
   "STX",
-  "NVDA"
+  "AMD",
+  "AVGO"
  ],
  "ranks": {
   "MU": 1,
-  "AMD": 3,
-  "AAPL": 21,
+  "AMD": 4,
+  "AAPL": 25,
   "ASML": 2,
-  "NVDA": 5,
+  "NVDA": 6,
   "AMZN": 27,
   "GOOGL": 27,
   "SHEL": 21,
   "HCA": 21,
-  "HD": 26,
-  "IONQ": 22,
+  "HD": 27,
+  "IONQ": 21,
   "BE": 15,
-  "PACS": 17
+  "PACS": 18
  },
  "price_only": [],
- "pnl": 36.80205,
- "paper": -0.12636,
- "alerts": 16
+ "pnl": -146.64168,
+ "paper": -0.16351,
+ "alerts": 21
 }
