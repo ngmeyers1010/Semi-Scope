@@ -1,7 +1,7 @@
 # SemiScope digest — 2026-11-06
 
 ## Since last run
-- Since Nov 5: AMD fell #20 → #21; AMZN rose #27 → #26; HCA rose #21 → #20; HD rose #26 → #24; IONQ rose #21 → #12; BE fell #13 → #15; your P&L +$550; paper portfolio +3.1 pts; 2 new alerts.
+- Since Nov 5: AMD fell #20 → #21; AMZN rose #27 → #26; HCA rose #21 → #20; HD rose #26 → #24; IONQ rose #21 → #12; BE fell #13 → #15; your P&L +$574; paper portfolio +3.6 pts; 1 new alert.
 
 ## Cycle: Upswing
 - Sales growing and accelerating — the sweet spot for chip stocks.
@@ -11,31 +11,27 @@
 - MU (+1.01), ASML (+0.82), STX (+0.50), ANET (+0.49), AVGO (+0.41)
 - No changes since the last update.
 
-## Biggest score moves since 2026-11-05
-- IONQ +0.40 (#21 → #12): mostly Revenue acceleration -467.9% → +49.2% (+0.50).
-- Each number is that stat's share of the score change; the shares add up to the total.
-
 ## What could $1,000 become? (backtest replayed)
-- Replaying the backtest's 59 quarters in random 1-year blocks, $1,000 became $2,825 to $15,768 after 5 years in 8 of 10 replays (middle: $6,168). After 1 year it was below $1,000 in 9% of replays, and it beat SPY over 5 years in 98%. The worst 1 in 20 replays fell 36% or more at some point. This replays the past; it is not a forecast.
+- Replaying the backtest's 59 quarters in random 1-year blocks, $1,000 became $2,825 to $15,788 after 5 years in 8 of 10 replays (middle: $6,168). After 1 year it was below $1,000 in 9% of replays, and it beat SPY over 5 years in 98%. The worst 1 in 20 replays fell 36% or more at some point. This replays the past; it is not a forecast.
 
 ## Drawdowns (backtest)
 - The worst drop (−53%, 2024-06 to 2025-04) took 15 months to get back to the old high; SOXX fell 41% in the same stretch and took 14 months. It spent 32% of all days more than 10% below its previous high.
 
 ## Up/down capture (backtest)
 - Catches 123% of SOXX's up months and 90% of its down months: more of the gains, less of the losses.
-- Catches 198% of SPY's up months and 104% of its down months: bigger swings both ways, but more on the way up.
+- Catches 198% of SPY's up months and 103% of its down months: bigger swings both ways, but more on the way up.
 
 ## Questions for this week
 - AMD fell from #3 to #21 since the 2026-09-01 rebalance. Which stat drove it, and do you think that change will last?
 - ANET joined the top 5 this week (from #16 to #4). Which stat moved it up, and is it the kind of change that lasts a quarter, or a few good days of price?
-- IONQ trades at 33.2× sales, the 0th percentile of its own 5-year range. Is it cheap, or is the market expecting sales to fall?
+- IONQ trades at 37.1× sales, the 0th percentile of its own 5-year range. Is it cheap, or is the market expecting sales to fall?
 - The whole week on one screen: weekly.html on your dashboard.
 
 ## Next rebalance
 - Next rebalance ≈Dec 1 (in 25 days). If it were today: sell AMD, INTC, NVDA; buy ASML, ANET, AVGO; 3 of 5 change (62% of the portfolio, ~0.12% cost).
 
 ## Earnings coming up (next 14 days)
-- NVDA ≈Nov 19 (in 13 days): usually moves ±4.0% the next day (≈$182–$197); up 3 of last 8.
+- NVDA ≈Nov 19 (in 13 days): usually moves ±4.0% the next day (≈$179–$194); up 3 of last 8.
 - Dates are estimates from each company's filing rhythm. Past moves show size, not direction.
 
 ## Group leadership
@@ -58,10 +54,10 @@
 - RVII: Not ranked (unranked)
 - STDN: Not ranked (unranked)
 - AAPL: P/S 10.4x, 96th percentile of its 5-yr range (near its priciest).
-- IONQ: P/S 33.2x, 0th percentile of its 5-yr range (near its cheapest).
+- IONQ: P/S 37.1x, 0th percentile of its 5-yr range (near its cheapest).
 
 ## Paper portfolio (the real test)
-- Since 2026-10-20: -25.2% vs S&P 500 -3.9% → behind by 21.3 pts
+- Since 2026-10-20: -24.7% vs S&P 500 -4.4% → behind by 20.3 pts
 
 ## Is the edge real?
 - Statistically strong: backtest (in-sample) beat SPY by +6.8%/quarter over 59 quarters, t = 3.6.
