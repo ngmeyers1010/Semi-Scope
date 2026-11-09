@@ -1,38 +1,30 @@
 # SemiScope digest — 2026-11-09
 
 ## Since last run
-- Since Nov 6: SMCI entered the top 5; AVGO left the top 5; ASML fell #2 → #3; NVDA fell #6 → #9; AMZN rose #26 → #25; SHEL fell #16 → #18; HCA rose #20 → #19; IONQ rose #12 → #6; your P&L +$830; paper portfolio +3.3 pts; 3 new alerts.
+- Since Nov 6: SMCI entered the top 5; AVGO left the top 5; ASML fell #2 → #3; NVDA fell #6 → #9; AMZN rose #26 → #25; SHEL fell #16 → #18; HCA rose #20 → #19; HD fell #24 → #25; IONQ rose #12 → #6; your P&L +$893; paper portfolio +4.5 pts; 3 new alerts.
 
 ## Cycle: Upswing
 - Sales growing and accelerating — the sweet spot for chip stocks.
 - Median sales growth +44.7%; 72% of companies accelerating.
 
 ## Top 5 right now
-- MU (+1.17), SMCI (+1.15), ASML (+0.84), STX (+0.40), ANET (+0.38)
-- SMCI entered the top 5 — because: Revenue acceleration -29.5% → +204.3% (+0.52); Inventory-days change YoY +46d → -36d (+0.49)
-- AVGO left the top 5 — because: Revenue growth YoY +85.5% → +85.5% (-0.11); Revenue acceleration +37.6% → +37.6% (+0.02)
-
-## Biggest score moves since 2026-11-06
-- SMCI +1.07 (#13 → #2): spread out: Revenue acceleration -29.5% → +204.3% (+0.52); Inventory-days change YoY +46d → -36d (+0.49).
-- IONQ +0.18 (#12 → #6): mostly Revenue growth YoY +336.0% → +336.0% (+0.16).
-- NVDA -0.17 (#6 → #9): mostly Revenue growth YoY +105.9% → +105.9% (-0.13).
-- MU +0.16: mostly Revenue growth YoY +379.3% → +379.3% (+0.16).
-- Each number is that stat's share of the score change; the shares add up to the total.
+- MU (+1.17), SMCI (+1.16), ASML (+0.84), STX (+0.40), ANET (+0.38)
+- No changes since the last update.
 
 ## What could $1,000 become? (backtest replayed)
-- Replaying the backtest's 59 quarters in random 1-year blocks, $1,000 became $2,846 to $15,891 after 5 years in 8 of 10 replays (middle: $6,224). After 1 year it was below $1,000 in 9% of replays, and it beat SPY over 5 years in 98%. The worst 1 in 20 replays fell 34% or more at some point. This replays the past; it is not a forecast.
+- Replaying the backtest's 59 quarters in random 1-year blocks, $1,000 became $2,857 to $15,953 after 5 years in 8 of 10 replays (middle: $6,243). After 1 year it was below $1,000 in 9% of replays, and it beat SPY over 5 years in 98%. The worst 1 in 20 replays fell 34% or more at some point. This replays the past; it is not a forecast.
 
 ## Drawdowns (backtest)
 - The worst drop (−53%, 2024-06 to 2025-04) took 15 months to get back to the old high; SOXX fell 41% in the same stretch and took 14 months. It spent 32% of all days more than 10% below its previous high.
 
 ## Up/down capture (backtest)
 - Catches 123% of SOXX's up months and 90% of its down months: more of the gains, less of the losses.
-- Catches 198% of SPY's up months and 101% of its down months: bigger swings both ways, but more on the way up.
+- Catches 198% of SPY's up months and 100% of its down months: bigger swings both ways, but more on the way up.
 
 ## Questions for this week
 - AMD fell from #3 to #21 since the 2026-09-01 rebalance. Which stat drove it, and do you think that change will last?
 - SMCI joined the top 5 this week (from #11 to #2). Which stat moved it up, and is it the kind of change that lasts a quarter, or a few good days of price?
-- SMCI trades at 0.4× sales, the 0th percentile of its own 5-year range. Is it cheap, or is the market expecting sales to fall?
+- SMCI trades at 0.3× sales, the 0th percentile of its own 5-year range. Is it cheap, or is the market expecting sales to fall?
 - The whole week on one screen: weekly.html on your dashboard.
 
 ## Next rebalance
@@ -43,7 +35,7 @@
 - Dates are estimates from each company's filing rhythm. Past moves show size, not direction.
 
 ## Group leadership
-- Analog/Power leading (+17% vs SOXX over 3 months), Memory/Storage lagging (-11%); the model's top 10 is 30% Systems.
+- Analog/Power leading (+18% vs SOXX over 3 months), Memory/Storage lagging (-12%); the model's top 10 is 30% Systems.
 
 ## Your stocks
 - MU: Top pick (#1/29)
@@ -55,18 +47,18 @@
 - GOOGL: Bottom quarter (≈#27/29)
 - SHEL: Below median (≈#18/29)
 - HCA: Below median (≈#19/29)
-- HD: Bottom quarter (≈#24/29)
+- HD: Bottom quarter (≈#25/29)
 - IONQ: Above median (≈#6/29)
 - BE: Below median (≈#15/29)
 - PACS: Below median (≈#16/29)
 - RVII: Not ranked (unranked)
 - STDN: Not ranked (unranked)
-- AAPL: P/S 10.7x, 98th percentile of its 5-yr range (near its priciest).
+- AAPL: P/S 10.6x, 98th percentile of its 5-yr range (near its priciest).
 - NVDA: P/S 14.2x, 8th percentile of its 5-yr range (near its cheapest).
-- IONQ: P/S 39.6x, 1st percentile of its 5-yr range (near its cheapest).
+- IONQ: P/S 40.2x, 1st percentile of its 5-yr range (near its cheapest).
 
 ## Paper portfolio (the real test)
-- Since 2026-10-20: -21.4% vs S&P 500 -2.5% → behind by 18.9 pts
+- Since 2026-10-20: -20.2% vs S&P 500 -2.1% → behind by 18.1 pts
 
 ## Is the edge real?
 - Statistically strong: backtest (in-sample) beat SPY by +6.9%/quarter over 59 quarters, t = 3.6.
