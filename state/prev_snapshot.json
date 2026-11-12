@@ -1,5 +1,5 @@
 {
- "asof": "2026-11-11",
+ "asof": "2026-11-12",
  "top": [
   "MU",
   "SMCI",
@@ -12,18 +12,18 @@
   "AMD": 21,
   "AAPL": 22,
   "ASML": 3,
-  "NVDA": 10,
+  "NVDA": 11,
   "AMZN": 25,
   "GOOGL": 27,
   "SHEL": 15,
-  "HCA": 16,
-  "HD": 22,
+  "HCA": 15,
+  "HD": 21,
   "IONQ": 8,
-  "BE": 16,
-  "PACS": 15
+  "BE": 15,
+  "PACS": 13
  },
  "price_only": [],
- "pnl": -506.28804,
- "paper": -0.21481,
- "alerts": 37
+ "pnl": -102.74039,
+ "paper": -0.1552,
+ "alerts": 40
 }
