@@ -16,14 +16,14 @@
   "AMZN": 25,
   "GOOGL": 27,
   "SHEL": 15,
-  "HCA": 15,
-  "HD": 21,
+  "HCA": 16,
+  "HD": 22,
   "IONQ": 8,
-  "BE": 15,
+  "BE": 16,
   "PACS": 15
  },
  "price_only": [],
- "pnl": 185.41564,
- "paper": -0.15269,
- "alerts": 38
+ "pnl": -506.28804,
+ "paper": -0.21481,
+ "alerts": 37
 }
