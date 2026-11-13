@@ -1,18 +1,18 @@
 # SemiScope digest — 2026-11-12
 
 ## Since last run
-- Since Nov 11: NVDA fell #10 → #11; HCA rose #16 → #15; HD rose #22 → #21; BE rose #16 → #15; PACS rose #15 → #13; your P&L +$404; paper portfolio +6.0 pts; 3 new alerts.
+- Up to date: nothing new since Nov 12.
 
 ## Cycle: Upswing
 - Sales growing and accelerating — the sweet spot for chip stocks.
 - Median sales growth +44.7%; 72% of companies accelerating.
 
 ## Top 5 right now
-- MU (+1.21), SMCI (+1.14), ASML (+0.85), STX (+0.38), ANET (+0.32)
+- MU (+1.20), SMCI (+1.14), ASML (+0.85), STX (+0.38), ANET (+0.32)
 - No changes since the last update.
 
 ## What could $1,000 become? (backtest replayed)
-- Replaying the backtest's 59 quarters in random 1-year blocks, $1,000 became $2,869 to $16,126 after 5 years in 8 of 10 replays (middle: $6,302). After 1 year it was below $1,000 in 9% of replays, and it beat SPY over 5 years in 98%. The worst 1 in 20 replays fell 32% or more at some point. This replays the past; it is not a forecast.
+- Replaying the backtest's 59 quarters in random 1-year blocks, $1,000 became $2,868 to $16,101 after 5 years in 8 of 10 replays (middle: $6,289). After 1 year it was below $1,000 in 9% of replays. The worst 1 in 20 replays fell 32% or more at some point. This replays the past; it is not a forecast.
 
 ## Drawdowns (backtest)
 - The worst drop (−53%, 2024-06 to 2025-04) took 15 months to get back to the old high; SOXX fell 41% in the same stretch and took 14 months. It spent 32% of all days more than 10% below its previous high.
@@ -24,15 +24,15 @@
 ## Questions for this week
 - AMD fell from #3 to #21 since the 2026-09-01 rebalance. Which stat drove it, and do you think that change will last?
 - SMCI joined the top 5 this week (from #13 to #2). Which stat moved it up, and is it the kind of change that lasts a quarter, or a few good days of price?
-- SMCI trades at 0.3× sales, the 0th percentile of its own 5-year range. Is it cheap, or is the market expecting sales to fall?
+- SMCI trades at 0.4× sales, the 0th percentile of its own 5-year range. Is it cheap, or is the market expecting sales to fall?
 - The whole week on one screen: weekly.html on your dashboard.
 
 ## Next rebalance
-- Next rebalance ≈Dec 1 (in 19 days). If it were today: sell AMD, INTC, NVDA; buy SMCI, ASML, ANET; 3 of 5 change (61% of the portfolio, ~0.12% cost).
+- Next rebalance ≈Dec 1 (in 19 days). If it were today: sell AMD, INTC, NVDA; buy SMCI, ASML, ANET; 3 of 5 change (60% of the portfolio, ~0.12% cost).
 
 ## Earnings coming up (next 14 days)
-- NVDA ≈Nov 19 (in 7 days): usually moves ±4.0% the next day (≈$160–$173); up 3 of last 8.
-- HD ≈Nov 25 (in 13 days): usually moves ±1.2% the next day (≈$344–$352); up 5 of last 8.
+- NVDA ≈Nov 19 (in 7 days): usually moves ±4.0% the next day (≈$167–$181); up 3 of last 8.
+- HD ≈Nov 25 (in 13 days): usually moves ±1.2% the next day (≈$347–$355); up 5 of last 8.
 - Dates are estimates from each company's filing rhythm. Past moves show size, not direction.
 
 ## Group leadership
@@ -54,16 +54,16 @@
 - PACS: Above median (≈#13/29)
 - RVII: Not ranked (unranked)
 - STDN: Not ranked (unranked)
-- AMD: P/S 21.1x, 95th percentile of its 5-yr range (near its priciest).
-- AAPL: P/S 10.8x, 98th percentile of its 5-yr range (near its priciest).
-- NVDA: P/S 13.2x, 6th percentile of its 5-yr range (near its cheapest).
-- IONQ: P/S 35.1x, 0th percentile of its 5-yr range (near its cheapest).
+- AMD: P/S 20.0x, 93rd percentile of its 5-yr range (near its priciest).
+- AAPL: P/S 10.8x, 99th percentile of its 5-yr range (near its priciest).
+- NVDA: P/S 13.8x, 8th percentile of its 5-yr range (near its cheapest).
+- IONQ: P/S 38.7x, 1st percentile of its 5-yr range (near its cheapest).
 
 ## Paper portfolio (the real test)
-- Since 2026-10-20: -15.5% vs S&P 500 -1.6% → behind by 14.0 pts
+- Since 2026-10-20: -15.3% vs S&P 500 -1.2% → behind by 14.1 pts
 
 ## Is the edge real?
-- Statistically strong: backtest (in-sample) beat SPY by +7.0%/quarter over 59 quarters, t = 3.8.
+- Statistically strong: backtest (in-sample) beat SPY by +7.3%/quarter over 58 quarters, t = 3.9.
 - Backtest: Beat SPY in 86% of 1-year windows; worst stretch Apr 2024–Apr 2025 at −45% vs SPY. Expect at least one year like that. Information ratio 1.02 (above 0.5 is good for a stock picker).
 
 ## Model health
@@ -79,6 +79,6 @@
 - AMAT: ≈2026-12-12 (in 30 days)
 
 ## Data
-- 33/39 companies clean; check: HCA, IONQ, PACS, RVII, STDN, WDC
+- 0/39 companies clean; check: AAPL, ADI, AMAT, AMD, AMZN, ANET
 
 _Research tool, not financial advice._
