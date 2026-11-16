@@ -1,5 +1,5 @@
 {
- "asof": "2026-11-13",
+ "asof": "2026-11-16",
  "top": [
   "MU",
   "SMCI",
@@ -10,20 +10,20 @@
  "ranks": {
   "MU": 1,
   "AMD": 21,
-  "AAPL": 22,
+  "AAPL": 23,
   "ASML": 3,
-  "NVDA": 11,
-  "AMZN": 25,
+  "NVDA": 10,
+  "AMZN": 24,
   "GOOGL": 27,
-  "SHEL": 15,
-  "HCA": 15,
+  "SHEL": 16,
+  "HCA": 16,
   "HD": 21,
-  "IONQ": 7,
-  "BE": 15,
-  "PACS": 12
+  "IONQ": 6,
+  "BE": 16,
+  "PACS": 13
  },
  "price_only": [],
- "pnl": -99.87056,
- "paper": -0.1552,
- "alerts": 38
+ "pnl": -1250.06496,
+ "paper": -0.23859,
+ "alerts": 39
 }
