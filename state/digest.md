@@ -1,7 +1,7 @@
 # SemiScope digest — 2026-11-16
 
 ## Since last run
-- Since Nov 13: AAPL fell #22 → #23; NVDA rose #11 → #10; AMZN rose #25 → #24; SHEL fell #15 → #16; HCA fell #15 → #16; IONQ rose #7 → #6; BE fell #15 → #16; PACS fell #12 → #13; your P&L −$1,150; paper portfolio −8.3 pts; 1 new alert.
+- Up to date: nothing new since Nov 16.
 
 ## Cycle: Upswing
 - Sales growing and accelerating — the sweet spot for chip stocks.
