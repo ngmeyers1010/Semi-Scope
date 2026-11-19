@@ -1,7 +1,7 @@
 # SemiScope digest — 2026-11-18
 
 ## Since last run
-- Since Nov 17: AMD rose #22 → #21; AAPL fell #21 → #22; SHEL rose #15 → #14; IONQ rose #7 → #6; PACS fell #12 → #13; your P&L −$43; paper portfolio +0.7 pts; 3 new alerts.
+- Up to date: nothing new since Nov 18.
 
 ## Cycle: Upswing
 - Sales growing and accelerating — the sweet spot for chip stocks.
@@ -80,6 +80,6 @@
 - AVGO: ≈2026-12-18 (in 30 days)
 
 ## Data
-- 33/39 companies clean; check: HCA, IONQ, PACS, RVII, STDN, WDC
+- 32/39 companies clean; check: HCA, IONQ, PACS, RVII, SHEL, STDN
 
 _Research tool, not financial advice._
