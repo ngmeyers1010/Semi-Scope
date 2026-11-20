@@ -1,7 +1,7 @@
 # SemiScope digest — 2026-11-19
 
 ## Since last run
-- Since Nov 18: AVGO entered the top 5; ANET left the top 5; AMD fell #21 → #22; AAPL rose #22 → #21; NVDA rose #10 → #9; AMZN rose #25 → #22; HCA rose #14 → #12; HD rose #21 → #17; IONQ fell #6 → #7; BE rose #16 → #14; PACS rose #13 → #11; your P&L −$535; paper portfolio −1.9 pts; 3 new alerts.
+- Up to date: nothing new since Nov 19.
 
 ## Cycle: Upswing
 - Sales growing and accelerating — the sweet spot for chip stocks.
@@ -9,8 +9,7 @@
 
 ## Top 5 right now
 - MU (+1.22), SMCI (+1.10), ASML (+0.83), STX (+0.38), AVGO (+0.31)
-- AVGO entered the top 5 — because: Price momentum -18.2% → -21.7% (+0.03); Volatility 52% → 52% (-0.00)
-- ANET left the top 5 — because: Price momentum +24.1% → +11.1% (-0.02); Volatility 60% → 60% (-0.00)
+- No changes since the last update.
 
 ## What could $1,000 become? (backtest replayed)
 - Replaying the backtest's 59 quarters in random 1-year blocks, $1,000 became $2,845 to $15,874 after 5 years in 8 of 10 replays (middle: $6,211). After 1 year it was below $1,000 in 9% of replays, and it beat SPY over 5 years in 98%. The worst 1 in 20 replays fell 35% or more at some point. This replays the past; it is not a forecast.
@@ -51,12 +50,12 @@
 - HD: Below median (≈#17/29)
 - IONQ: Above median (≈#7/29)
 - BE: Above median (≈#14/29)
-- PACS: Above median (≈#11/29)
+- PACS: Above median (≈#12/29)
 - RVII: Not ranked (unranked)
 - STDN: Not ranked (unranked)
 - AAPL: P/S 10.6x, 97th percentile of its 5-yr range (near its priciest).
 - NVDA: P/S 11.6x, 3rd percentile of its 5-yr range (near its cheapest).
-- IONQ: P/S 25.8x, 0th percentile of its 5-yr range (near its cheapest).
+- IONQ: P/S 26.7x, 0th percentile of its 5-yr range (near its cheapest).
 
 ## Paper portfolio (the real test)
 - Since 2026-10-20: -25.3% vs S&P 500 -6.9% → behind by 18.4 pts
@@ -79,6 +78,6 @@
 - MU (yours): ≈2026-12-18 (in 29 days)
 
 ## Data
-- 33/39 companies clean; check: HCA, IONQ, PACS, RVII, STDN, WDC
+- 29/39 companies clean; check: ANET, BE, DELL, HCA, IONQ, PACS
 
 _Research tool, not financial advice._
