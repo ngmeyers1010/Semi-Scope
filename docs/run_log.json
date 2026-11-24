@@ -670,5 +670,15 @@
   "mode": "live",
   "kind": null,
   "run_id": "45332731762"
+ },
+ {
+  "when": "2026-11-24 23:40 UTC",
+  "status": "failed",
+  "skipped": 0,
+  "skipped_tickers": [],
+  "error": "Failed during: tests",
+  "mode": "live",
+  "kind": null,
+  "run_id": "45511712643"
  }
 ]
